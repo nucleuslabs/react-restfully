@@ -39,7 +39,7 @@ React Restfully is a set of React Hooks and their analogous vanilla JS functions
 ##### usePost #####
 ###### Example ######
 
-```jsx harmony
+```jsx
 function hello() {
 	const {data, loading, error} = usePost('__URL__', {
 		variables: {language: 'english'},
@@ -91,7 +91,7 @@ usePost(
 ##### useGet #####
 ###### Example ######
 
-```jsx harmony
+```jsx
 function hello() {
 	const {data, loading, error} = useGet('__URL__', {
 		variables: {language: 'english'},
@@ -143,7 +143,7 @@ useGet(
 ##### useSubmit #####
 ###### Example ######
 
-```jsx harmony
+```jsx
 function Hello() {
 	const [loadGreeting, {called, loading, data}] = useSubmit('__URL__', {
 		variables: {language: 'english'},
