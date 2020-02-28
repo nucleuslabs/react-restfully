@@ -75,7 +75,7 @@ usePost(
 |----------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | `dependencies` |  `array`      | The array of dependencies to pass to React's `useEffect`'s second parameter. Used to determine when this hook is fired. Default: `[]`. |
 
-###### Result ######
+###### `Result` ######
 | PROPERTY    |      TYPE                 |  DESCRIPTION                            | 
 |-------------|---------------------------|-----------------------------------------|
 | `data`      | `object`&#124;`undefined` | Data returned from query                |
@@ -125,7 +125,7 @@ useGet(
 |----------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | `dependencies` |  `array`      | The array of dependencies to pass to React's `useEffect`'s second parameter. Used to determine when this hook is fired. Default: `[]`. |
 
-###### Result ######
+###### `Result` ######
 | PROPERTY    |      TYPE                 |  DESCRIPTION                            | 
 |-------------|---------------------------|-----------------------------------------|
 | `data`      | `object`&#124;`undefined` | Data returned from query                |
@@ -177,7 +177,7 @@ useSubmit(
 |----------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | `dependencies` |  `array`        | The array of dependencies to pass to React's `useEffect`'s second parameter. Used to determine when this hook is fired. Default: `[]`. |
 
-###### Result ######
+###### `Result` ######
 | PROPERTY    |      TYPE                 |  DESCRIPTION                                | 
 |-------------|---------------------------|---------------------------------------------|
 | `data`      | `object`&#124;`undefined` | Data returned from query                    |
