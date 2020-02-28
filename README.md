@@ -38,6 +38,7 @@ React Restfully is a set of React Hooks and their analogous vanilla JS functions
 
 ##### usePost #####
 ###### Example ######
+
 ```jsx harmony
 function hello() {
 	const {data, loading, error} = usePost('__URL__', {
@@ -49,6 +50,7 @@ function hello() {
 }
 ```
 ###### Function Signature ######
+
 ```jsx
 usePost(
     url: String,
@@ -88,6 +90,7 @@ usePost(
 
 ##### useGet #####
 ###### Example ######
+
 ```jsx harmony
 function hello() {
 	const {data, loading, error} = useGet('__URL__', {
@@ -99,6 +102,7 @@ function hello() {
 }
 ```
 ###### Function Signature ######
+
 ```jsx
 useGet(
     url: String,
@@ -138,6 +142,7 @@ useGet(
 
 ##### useSubmit #####
 ###### Example ######
+
 ```jsx harmony
 function Hello() {
 	const [loadGreeting, {called, loading, data}] = useSubmit('__URL__', {
@@ -152,6 +157,7 @@ function Hello() {
 }
 ```
 ###### Function Signature ######
+
 ```jsx
 useSubmit(
     url: String,
