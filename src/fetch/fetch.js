@@ -27,7 +27,7 @@ function fetchBase(url, headers, resolve, reject) {
 
 
 /** POST Fetch wrapper that behaves like postJson.
- * @param {Object} url To be used with {@see link}
+ * @param {String} url To be used with {@see link}
  * @param {fetchOptions} fetchOptions To be passed as through body
  * @return {Promise}
  * */
@@ -52,7 +52,7 @@ export function postHandler(url, fetchOptions) {
 }
 
 /** GET Fetch wrapper that behaves like postJson.
- * @param {Object} url To be used with {@see link}
+ * @param {String} url To be used with {@see link}
  * @param {fetchOptions} fetchOptions data To be built into GET params
  * @return {Promise}
  * */
@@ -94,17 +94,17 @@ function thenHandlers({onCompleted, onError, payload, dispatch}) {
 		},
 		err => {
 			let errorRes = err || {message: 'Whoops, looks like something went wrong.'};
+			if(isFunction(onError)) {
+				onError(errorRes);
+			} else {
+				console.error(errorRes)
+			}
 			dispatch({
 				loading: false,
 				hasErrors: true,
 				error: errorRes,
 				payload,
 			});
-			if(isFunction(onError)) {
-				onError(errorRes);
-			} else {
-				console.error(errorRes)
-			}
 		}
 	]);
 }
