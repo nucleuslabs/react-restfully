@@ -3,7 +3,7 @@ import {fetchResultObject, postHandler} from "../fetch/fetch";
 import '../fetch/FetchOptionsTypeDef';
 
 /** Uses POST. Similar to ajaxLoader().
- * @param {Object|String} url
+ * @param {String} url
  * @param {fetchOptions} fetchOptions - Route value
  * @param {array} dependencies - array Used for second parameter of useEffect()
  * @returns {FetchResult}

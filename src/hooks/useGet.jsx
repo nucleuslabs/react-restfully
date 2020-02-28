@@ -3,7 +3,7 @@ import {fetchResultObject, getHandler} from "../fetch/fetch";
 import '../fetch/FetchOptionsTypeDef';
 
 /** Uses GET to fetch data.
- * @param {Object|String} url
+ * @param {String} url
  * @param {fetchOptions} fetchOptions - Options to supply
  * @param {array} dependencies - Array to be used for second parameter of useEffect()
  * @returns {FetchResult}

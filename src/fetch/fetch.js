@@ -110,11 +110,15 @@ function thenHandlers({onCompleted, onError, payload, dispatch}) {
 }
 
 export function fetchResultObject(fetchOptions) {
-	return {
+	let result = {
 		loading: hasProp(fetchOptions, 'loading') ? fetchOptions.loading : true,
 		data: undefined,
 		hasErrors: false,
 		error: undefined,
 		payload: fetchOptions.payload || {},
 	};
+	if(hasProp(fetchOptions, 'called')) {
+		result.called = fetchOptions.called;
+	}
+	return result;
 }
