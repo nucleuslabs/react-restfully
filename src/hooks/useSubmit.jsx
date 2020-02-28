@@ -10,15 +10,15 @@ import {hasProp} from "../fetch/util";
  * */
 export function useSubmit(url, fetchOptions = {}) {
 	const [state, dispatch] = useReducer(
-		(state, action) => ({...state, ...action}),
+		(state, action) => Object.assign({}, state, action),
 		fetchResultObject(Object.assign(fetchOptions, {loading: false}))
 	);
 
 	const submit = fetchOptionsAlt => {
 		if(!state.loading) {
 			dispatch({loading: true});
-			if(hasProp(fetchOptionsAlt, 'variables')) {
-				fetchOptions.variables = fetchOptionsAlt.variables;
+			if(hasProp(fetchOptionsAlt, 'payload')) {
+				fetchOptions.payload = fetchOptionsAlt.payload;
 			}
 			postHandler(url, Object.assign({}, fetchOptions, {state, dispatch}));
 		}

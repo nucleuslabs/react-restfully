@@ -33,7 +33,7 @@ export function encodeUriComponent(str) {
  *     <li><code>param({foo: [1,2,3]}) = 'foo=1%2C2%2C3'</code></li>
  *     <li><code>$.param({foo: [1,2,3]}) = 'foo%5B%5D=1&foo%5B%5D=2&foo%5B%5D=3'</code></li>
  * </ul>
- * @param {array|object} queryParams Query/GET params
+ * @param {array|object|Map} queryParams Query/GET params
  * @return {string} URL parameters
  */
 export function param(queryParams) {
@@ -71,11 +71,16 @@ export function link(base, queryParams = undefined) {
 		url += `?${queryParams}`;
 	} else if(isObject(queryParams) && Object.values(queryParams).length) {
 		url += `?${param(queryParams)}`;
+	} else if(isMap(queryParams)) {
+		queryParams = map2POJO(queryParams);
+		url += `?${param(queryParams)}`;
 	}
 	return url;
 }
 
-export const isObject = val => typeof val === 'object';
+export const isMap = val => val instanceof Map;
+export const map2POJO = map => [...map.entries()].reduce((obj, [key, value]) => Object.assign(obj, {[key]: value}), {});
+export const isObject = val => (typeof val === 'object' && Object.prototype.toString.call(val) === '[object Object]');
 export const isFunction = val => typeof val === 'function';
 export const isString = val => typeof val === 'string';
 export const empty = val => (

@@ -1,6 +1,12 @@
-# README #
+# react-restfully #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+React Restfully is a set of React Hooks and their analogous vanilla JS functions that assist you in fetching data.
+ 
+### Hooks ###
+
+- `useGet(url, fetchOptions)`
+- `usePost`
+- `useSubmit`
 
 ### What is this repository for? ###
 

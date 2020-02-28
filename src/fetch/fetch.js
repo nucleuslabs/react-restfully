@@ -1,6 +1,6 @@
 import {hasProp, isFunction, link} from "./util";
 
-/* Default headers to supply to fetch. Alternate headers can be provided. */
+/** Default headers to supply to fetch. Alternate headers can be provided through fetchOptions.headers*/
 const DEFAULT_HEADERS = {
 	"Accept": "application/json, text/javascript, */*; q=0.01",
 	"Content-Type": "application/json",
@@ -32,11 +32,11 @@ function fetchBase(url, headers, resolve, reject) {
  * @return {Promise}
  * */
 export function post(url, fetchOptions) {
-	const {variables, headers} = fetchOptions;
+	const {payload, headers} = fetchOptions;
 	return new Promise((resolve, reject) =>
 		fetchBase(link(url), {
 			method: 'POST',
-			body: JSON.stringify(variables),
+			body: JSON.stringify(payload),
 			headers: headers || DEFAULT_HEADERS
 		}, resolve, reject));
 }
@@ -57,9 +57,9 @@ export function postHandler(url, fetchOptions) {
  * @return {Promise}
  * */
 export function get(url, fetchOptions) {
-	const {variables, headers} = fetchOptions;
+	const {payload, headers} = fetchOptions;
 	return new Promise((resolve, reject) =>
-		fetchBase(link(url, variables), {
+		fetchBase(link(url, payload), {
 			method: 'GET',
 			headers: headers || DEFAULT_HEADERS
 		}, resolve, reject));
@@ -79,31 +79,31 @@ export function getHandler(url, fetchOptions) {
  * To be used with {@see postHandler} and {@see getHandler}
  * @param {object} props
  * @returns {function[]}*/
-function thenHandlers({onCompleted, onError, variables, state, dispatch}) {
-	let returnMe = {};
+function thenHandlers({onCompleted, onError, payload, dispatch}) {
 	return ([
 		success => {
 			if(isFunction(onCompleted)) {
 				onCompleted(success);
 			}
-			returnMe.loading = false;
-			returnMe.hasErrors = false;
-			returnMe.data = success;
-			returnMe.variables = variables;
-			dispatch(returnMe);
+			dispatch({
+				loading: false,
+				hasErrors: false,
+				data: success,
+				payload,
+			});
 		},
 		err => {
-			let errorResult = err || 'Whoops, looks like something went wrong.';
-			returnMe.loading = false;
-			returnMe.hasErrors = true;
-			returnMe.error = errorResult;
-			returnMe.variables = variables;
-			dispatch(returnMe);
+			let errorRes = err || {message: 'Whoops, looks like something went wrong.'};
+			dispatch({
+				loading: false,
+				hasErrors: true,
+				error: errorRes,
+				payload,
+			});
 			if(isFunction(onError)) {
-				onError(errorResult);
+				onError(errorRes);
 			} else {
-				console.error(errorResult)
-				//throw new Error(err || 'Whoops, looks like something went wrong.');
+				console.error(errorRes)
 			}
 		}
 	]);
@@ -115,6 +115,6 @@ export function fetchResultObject(fetchOptions) {
 		data: undefined,
 		hasErrors: false,
 		error: undefined,
-		variables: fetchOptions.variables || {}
+		payload: fetchOptions.payload || {},
 	};
 }
