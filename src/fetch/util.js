@@ -1,14 +1,43 @@
+export const isMap = val => val instanceof Map;
+
+export const isSet = val => val instanceof Set;
+
+export const map2POJO = map => {
+	if(!isMap(map)) {
+		throw new Error('map2POJO received an incompatible argument type. Expected Map.');
+	}
+	return [...map.entries()].reduce((obj, [key, value]) => Object.assign(obj, {[key]: value}), {});
+};
+
+export const isObject = val => (typeof val === 'object' && Object.prototype.toString.call(val) === '[object Object]');
+
+export const isFunction = val => typeof val === 'function';
+
+export const isString = val => typeof val === 'string';
+
+export const empty = val => (
+	(([undefined, null, false, 0, '0', '']).indexOf(val) !== -1)
+	|| (Array.isArray(val) && val.length === 0)
+	|| (isObject(val) && Object.keys(val).length === 0)
+	|| ((isMap(val) || isSet(val)) && val.size === 0)
+);
+
 /**
  * Determines if an object has a key/property.
  * Equivalent to obj.hasOwnProperty(key)
  *
- * @param   {object} obj Object
+ * @param   {object|Map} obj Object
  * @param   {string} key      Key/property
  *
  * @returns {boolean} True if object has key, false otherwise
  */
 export function hasProp(obj, key) {
-	return Object.prototype.hasOwnProperty.call(obj, key);
+	if(isObject(obj)) {
+		return Object.prototype.hasOwnProperty.call(obj, key);
+	} else if(isMap(obj)) {
+		return obj.has(key);
+	}
+	throw new Error("hasProp() was provided an object argument of an unsupported type.");
 }
 
 /**
@@ -33,7 +62,7 @@ export function encodeUriComponent(str) {
  *     <li><code>param({foo: [1,2,3]}) = 'foo=1%2C2%2C3'</code></li>
  *     <li><code>$.param({foo: [1,2,3]}) = 'foo%5B%5D=1&foo%5B%5D=2&foo%5B%5D=3'</code></li>
  * </ul>
- * @param {array|object|Map} queryParams Query/GET params
+ * @param {array|Object} queryParams Query/GET params
  * @return {string} URL parameters
  */
 export function param(queryParams) {
@@ -45,31 +74,34 @@ export function param(queryParams) {
 		};
 
 		// Return the appropriate function (parameters)
-		return isObj
-			? (acc, [name, value]) => _build(acc, name, value) // To use with Object.entries() [[name,value],...]
-			: (acc, {name, value}) => _build(acc, name, value); // Legacy: handle objects like [{name: '', value: ''}]
+		return (acc, [name, value]) => _build(acc, name, value);
 	};
 
 	if(isObject(queryParams)) {
 		return Object.entries(queryParams).reduce(_reduce(true), []).join('&').replace(/%20/g, '+');
 	} else if(Array.isArray(queryParams)) {
-		return queryParams.reduce(_reduce(false), []).join('&').replace(/%20/g, '+');
-	} else {
-		throw Error("Bad type supplied to param()");
+		return queryParams.reduce(_reduce(true), []).join('&').replace(/%20/g, '+');
 	}
+	throw Error("Bad type supplied to param()");
 }
 
 /**
  * If `queryParams` is a string it will be assumed to be a valid URL and returned as-is.
- * @param base
+ * @param {string} base
  * @param {string|Object} queryParams Query/GET params
  * @returns {string} URL
  */
 export function link(base, queryParams = undefined) {
+	if(!isString(base)) {
+		throw new Error("base argument must be of type String.");
+	}
+
 	let url = base;
 	if(isString(queryParams)) {
 		url += `?${queryParams}`;
 	} else if(isObject(queryParams) && Object.values(queryParams).length) {
+		url += `?${param(queryParams)}`;
+	} else if(Array.isArray(queryParams) && queryParams.length) {
 		url += `?${param(queryParams)}`;
 	} else if(isMap(queryParams)) {
 		queryParams = map2POJO(queryParams);
@@ -77,14 +109,3 @@ export function link(base, queryParams = undefined) {
 	}
 	return url;
 }
-
-export const isMap = val => val instanceof Map;
-export const map2POJO = map => [...map.entries()].reduce((obj, [key, value]) => Object.assign(obj, {[key]: value}), {});
-export const isObject = val => (typeof val === 'object' && Object.prototype.toString.call(val) === '[object Object]');
-export const isFunction = val => typeof val === 'function';
-export const isString = val => typeof val === 'string';
-export const empty = val => (
-	(([undefined, null, false, 0, '0', '']).indexOf(val) !== -1)
-	|| (Array.isArray(val) && val.length === 0)
-	|| (typeof val === 'object' && Object.keys(val).length === 0)
-);

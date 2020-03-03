@@ -1,5 +1,5 @@
 # react-restfully #
-React Restfully is a set of React Hooks and their analogous vanilla JS functions that assist you in fetching data using the `fetch()` api.
+React Restfully is a set of React Hooks and their analogous vanilla JS functions that assist you in fetching data using the `fetch()` API.
 
 _Version 1.0.0_
 

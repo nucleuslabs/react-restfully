@@ -3,10 +3,78 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "lint": "node_modules/.bin/eslint src/ --ext .js --format 'node_modules/eslint-codeframe-formatter'"
   },
-  "keywords": [],
-  "author": "",
+  "repository": "https://bitbucket.org/nucleuslabs/react-restfully",
+  "keywords": [
+    "react",
+    "hook",
+    "promise",
+    "fetch"
+  ],
+  "contributors": [
+    {
+      "name": "Miroslav Glamuzina",
+      "email": "mglamuzina@nucleuslabs.com",
+      "url": "https://nucleuslabs.com"
+    }
+  ],
+  "author": "Miroslav Glamuzina",
   "license": "MIT",
-  "description": ""
+  "description": "React Restfully is a set of React Hooks and their analogous vanilla JS functions that assist you in fetching data using the fetch() api.",
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.(spec|test).[jt]s?(x)"
+    ],
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ],
+    "collectCoverageFrom": [
+      "**/src/*.js",
+      "**/src/fetch/*.js",
+      "**/src/hooks/*.jsx"
+    ]
+  },
+  "dependencies": {
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7",
+    "@babel/core": "^7.8.6",
+    "@babel/plugin-proposal-class-properties": "^7",
+    "@babel/plugin-proposal-decorators": "^7",
+    "@babel/plugin-proposal-function-bind": "^7",
+    "@babel/plugin-proposal-object-rest-spread": "^7",
+    "@babel/plugin-syntax-decorators": "^7",
+    "@babel/plugin-syntax-jsx": "^7",
+    "@babel/plugin-transform-react-display-name": "^7",
+    "@babel/plugin-transform-react-jsx": "^7",
+    "@babel/plugin-transform-react-jsx-self": "^7",
+    "@babel/plugin-transform-react-jsx-source": "^7",
+    "@babel/plugin-transform-runtime": "^7",
+    "@babel/preset-env": "^7.8.6",
+    "@babel/preset-react": "^7.8.3",
+    "@testing-library/react": "^9.4.1",
+    "autoprefixer": "^9",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^25.1.0",
+    "babel-loader": "^8",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "eslint": "^6.8.0",
+    "eslint-codeframe-formatter": "^1",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-loader": "^3",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.18.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^25.1.0",
+    "jest-extended": "^0.11.5",
+    "react-test-renderer": "^16.13.0",
+    "node-fetch": "^2.6.0",
+    "fetch-mock": "^9.0.0"
+  }
 }

@@ -43,7 +43,7 @@ export function post(url, fetchOptions) {
 
 /** POST wrapper with additional functionality.
  * Does not return a promise. Loading state management can be done for you by providing `loading` and `setLoading()`.
- * @param url
+ * @param {String} url
  * @param {fetchOptions} fetchOptions
  * */
 export function postHandler(url, fetchOptions) {
@@ -67,7 +67,7 @@ export function get(url, fetchOptions) {
 
 /** GET wrapper with additional functionality. Does not return a promise.
  * Loading state management can be done for you by providing `loading` and `setLoading()`.
- * @param url
+ * @param {String} url
  * @param {fetchOptions} fetchOptions
  * */
 export function getHandler(url, fetchOptions) {
@@ -77,39 +77,43 @@ export function getHandler(url, fetchOptions) {
 
 /** Default Fetch.then() parameters to supply.
  * To be used with {@see postHandler} and {@see getHandler}
- * @param {object} props
+ * @param {object} props={}
  * @returns {function[]}*/
-function thenHandlers({onCompleted, onError, payload, dispatch}) {
+function thenHandlers({onCompleted, onError, payload, dispatch} = {}) {
 	return ([
 		success => {
 			if(isFunction(onCompleted)) {
 				onCompleted(success);
 			}
-			dispatch({
-				loading: false,
-				hasErrors: false,
-				data: success,
-				payload,
-			});
+			if(isFunction(dispatch)) {
+				dispatch({
+					loading: false,
+					hasErrors: false,
+					data: success,
+					payload,
+				});
+			}
 		},
 		err => {
 			let errorRes = err || {message: 'Whoops, looks like something went wrong.'};
 			if(isFunction(onError)) {
 				onError(errorRes);
 			} else {
-				console.error(errorRes)
+				throw new Error(errorRes);
 			}
-			dispatch({
-				loading: false,
-				hasErrors: true,
-				error: errorRes,
-				payload,
-			});
+			if(isFunction(dispatch)) {
+				dispatch({
+					loading: false,
+					hasErrors: true,
+					error: errorRes,
+					payload,
+				});
+			}
 		}
 	]);
 }
 
-export function fetchResultObject(fetchOptions) {
+export function fetchResultObject(fetchOptions = {}) {
 	let result = {
 		loading: hasProp(fetchOptions, 'loading') ? fetchOptions.loading : true,
 		data: undefined,
@@ -122,3 +126,9 @@ export function fetchResultObject(fetchOptions) {
 	}
 	return result;
 }
+
+export const testables = {
+	DEFAULT_HEADERS,
+	fetchBase,
+	thenHandlers
+};
