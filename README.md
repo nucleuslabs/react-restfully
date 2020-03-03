@@ -1,11 +1,7 @@
 # react-restfully #
+React Restfully is a set of React Hooks and their analogous vanilla JS functions that assist you in fetching data using the `fetch()` api.
 
-React Restfully is a set of React Hooks and their analogous vanilla JS functions that assist you in fetching data.
-
-### What is this repository for? ###
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+_Version 1.0.0_
 
 ### How do I get set up? ###
 
@@ -25,12 +21,12 @@ React Restfully is a set of React Hooks and their analogous vanilla JS functions
 ### Quickstart ###
 
 * [Hooks](#hooks)
-  * [usePost](#usepost)
-  * [useGet](#useget)
-  * [useSubmit](#usesubmit)
+    * [usePost](#usepost)
+    * [useGet](#useget)
+    * [useSubmit](#usesubmit)
 * [Vanilla JS](#vanilla-js)
-  * [post](#post)
-  * [get](#get)
+    * [post](#post)
+    * [get](#get)
 
  
 ## Hooks ##
@@ -38,6 +34,7 @@ React Restfully is a set of React Hooks and their analogous vanilla JS functions
 ---
 
 #### usePost ####
+
 ##### Example #####
 
 ```jsx
@@ -69,7 +66,7 @@ usePost(
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
 | `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
-| `payload`     | `Object`&#124;`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
+| `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
 
@@ -81,15 +78,16 @@ usePost(
 ##### `Result` #####
 | PROPERTY    |      TYPE                 |  DESCRIPTION                            | 
 |-------------|---------------------------|-----------------------------------------|
-| `data`      | `object`&#124;`undefined` | Data returned from query                |
+| `data`      | `object`∣`undefined` | Data returned from query                |
 | `loading`   | `Boolean`                 | Whether or not query is ongoing         |
 | `hasErrors` | `Boolean`                 | Whether or not errors have occurred     |
-| `error`     | `object`&#124;`undefined` | Error returned. Defaults to `undefined` |
+| `error`     | `object`∣`undefined` | Error returned. Defaults to `undefined` |
 | `payload`   | `Object`                  | Data passed down                        |
 
 ---
 
 #### useGet ####
+
 ##### Example #####
 
 ```jsx
@@ -112,6 +110,7 @@ useGet(
 ): FetchResult
 ```
 ##### Params #####
+
 ##### `url` #####
 | PARAM    |      TYPE     |  DESCRIPTION                  |
 |----------|---------------|-------------------------------|
@@ -121,7 +120,7 @@ useGet(
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
 | `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
-| `payload`     | `Object`&#124;`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
+| `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
 
@@ -133,15 +132,16 @@ useGet(
 ##### `Result` #####
 | PROPERTY    |      TYPE                 |  DESCRIPTION                            | 
 |-------------|---------------------------|-----------------------------------------|
-| `data`      | `object`&#124;`undefined` | Data returned from query                |
+| `data`      | `object`∣`undefined` | Data returned from query                |
 | `loading`   | `Boolean`                 | Whether or not query is ongoing         |
 | `hasErrors` | `Boolean`                 | Whether or not errors have occurred     |
-| `error`     | `object`&#124;`undefined` | Error returned. Defaults to `undefined` |
+| `error`     | `object`∣`undefined` | Error returned. Defaults to `undefined` |
 | `payload`   | `Object`                  | Data passed down                        |
 
 ---
 
 #### useSubmit ####
+
 ##### Example #####
 
 ```jsx
@@ -166,6 +166,7 @@ useSubmit(
 ): [(function(): void), FetchResult]
 ```
 ##### Params #####
+
 ##### `url` #####
 | PARAM    |      TYPE     |  DESCRIPTION                  |
 |----------|---------------|-------------------------------|
@@ -175,7 +176,7 @@ useSubmit(
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
 | `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
-| `payload`     | `Object`&#124;`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
+| `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
 
@@ -187,30 +188,19 @@ useSubmit(
 ##### `Result` #####
 | PROPERTY    |      TYPE                 |  DESCRIPTION                                | 
 |-------------|---------------------------|---------------------------------------------|
-| `data`      | `object`&#124;`undefined` | Data returned from query                    |
+| `data`      | `object`∣`undefined` | Data returned from query                    |
 | `loading`   | `Boolean`                 | Whether or not query is ongoing             |
 | `hasErrors` | `Boolean`                 | Whether or not errors have occurred         |
-| `error`     | `object`&#124;`undefined` | Error returned. Defaults to `undefined`     |
+| `error`     | `object`∣`undefined` | Error returned. Defaults to `undefined`     |
 | `payload`   | `Object`                  | Data passed down                            |
 | `called`    | `Boolean`                 | Whether or not the function has been called |
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## Vanilla JS ##
 
 ---
 
 #### post ####
+
 ##### Example #####
 
 ```jsx
@@ -235,6 +225,7 @@ post(
 ): Promise
 ```
 ##### Params #####
+
 ##### `url` #####
 | PARAM    |      TYPE     |  DESCRIPTION                  |
 |----------|---------------|-------------------------------|
@@ -244,13 +235,14 @@ post(
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
 | `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
-| `payload`     | `Object`&#124;`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
+| `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
 
 ---
 
 #### get ####
+
 ##### Example #####
 
 ```jsx
@@ -275,6 +267,7 @@ get(
 ): Promise
 ```
 ##### Params #####
+
 ##### `url` #####
 | PARAM    |      TYPE     |  DESCRIPTION                  |
 |----------|---------------|-------------------------------|
@@ -284,6 +277,7 @@ get(
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
 | `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
-| `payload`     | `Object`&#124;`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
+| `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
+| `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
