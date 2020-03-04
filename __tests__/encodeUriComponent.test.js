@@ -1,11 +1,11 @@
 import {encodeUriComponent} from '../src/fetch/util';
 
-describe('encodeUriComponent', function() {
-	test('Encodes an URI Component', function() {
+describe('encodeUriComponent', () => {
+	test('Encodes an URI Component', () => {
 		expect(encodeUriComponent('foo bar')).toEqual('foo%20bar');
 	});
-	test("Ensure '.' and '..' throws an error", function() {
-		expect(function() {
+	test("Ensure '.' and '..' throws an error", () => {
+		expect(() => {
 			encodeUriComponent('.');
 			encodeUriComponent('..');
 		}).toThrowError();

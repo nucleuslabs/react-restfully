@@ -11,7 +11,7 @@ function TestComponent() {
 	return <h1 data-testid="h1">{data.greeting.message}</h1>;
 }
 
-describe('useGet', function() {
+describe('useGet', () => {
 	test('Verify useGet() hook behaves correctly', async() => {
 		fetchMock.get('http://example.com', {greeting: {message: 'Hello, world!'}});
 		let {getByTestId, getByText} = render(<TestComponent/>);

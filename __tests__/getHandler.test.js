@@ -3,7 +3,7 @@ import fetchMock from 'fetch-mock';
 
 const {DEFAULT_HEADERS} = testables;
 
-describe('getHandler', function() {
+describe('getHandler', () => {
 	test('Verify get() returns data onCompleted', () => {
 		fetchMock.get('http://example.com', {data: 'yes'});
 		getHandler(

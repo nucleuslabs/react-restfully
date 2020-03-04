@@ -3,7 +3,7 @@ import fetchMock from 'fetch-mock';
 
 const {DEFAULT_HEADERS} = testables;
 
-describe('postHandler', function() {
+describe('postHandler', () => {
 	test('Verify post() returns data onCompleted', () => {
 		fetchMock.post('http://example.com', {data: 'yes'});
 		postHandler(

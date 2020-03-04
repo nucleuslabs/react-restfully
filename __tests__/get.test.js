@@ -3,7 +3,7 @@ import fetchMock from 'fetch-mock';
 
 const {DEFAULT_HEADERS} = testables;
 
-describe('post', function() {
+describe('post', () => {
 	test('Verify get() will resolve', () => {
 		fetchMock.get('http://example.com', {data: 'yes'});
 		expect(get(

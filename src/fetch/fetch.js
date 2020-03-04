@@ -121,7 +121,7 @@ function thenHandlers({onCompleted, onError, payload, dispatch} = {}) {
 
 /** Returns the default object defined in fetchResultObject.js.
  * @param {FetchResult} fetchResults
- * return {FetchResult}*/
+ * @return {FetchResult}*/
 export function fetchResultObject(fetchResults = {}) {
 	let result = {
 		loading: hasProp(fetchResults, 'loading') ? fetchResults.loading : true,

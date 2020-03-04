@@ -3,7 +3,7 @@ import fetchMock from 'fetch-mock';
 
 const {fetchBase, DEFAULT_HEADERS} = testables;
 
-describe('fetchBase', function() {
+describe('fetchBase', () => {
 	test('Verify fetchBase(POST) will resolve', () => {
 		fetchMock.post('http://example.com', {data: 'yes'});
 		expect(fetchBase(

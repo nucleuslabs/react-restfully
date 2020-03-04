@@ -1,7 +1,7 @@
 import {fetchResultObject} from "../src";
 
-describe('fetchResultObject', function() {
-	test('Verify result of correct returned Object', function() {
+describe('fetchResultObject', () =>{
+	test('Verify result of correct returned Object', () =>{
 		expect(fetchResultObject({})).toEqual({
 			loading: true,
 			data: undefined,

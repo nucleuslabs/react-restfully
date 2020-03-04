@@ -1,11 +1,11 @@
 import {isString} from "../src/fetch/util";
 
-describe('isString', function() {
-	test('Verify result of String argument', function() {
+describe('isString', () => {
+	test('Verify result of String argument', () => {
 		expect(isString('')).toEqual(true);
 		expect(isString('foobar')).toEqual(true);
 	});
-	test('Ensure non-String values return false', function() {
+	test('Ensure non-String values return false', () => {
 		expect(isString([])).toEqual(false);
 		expect(isString(false)).toEqual(false);
 		expect(isString(new Set(['foo', 'bar']))).toEqual(false);
