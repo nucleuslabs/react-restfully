@@ -1,41 +1,19 @@
-# react-restfully #
+# react-restfully
 React Restfully is a set of React Hooks and their analogous vanilla JS functions that assist you in fetching data using the `fetch()` API.
 
 _Version 1.0.0_
 
-### How do I get set up? ###
+### Quickstart
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Quickstart ###
-
-* [Hooks](#hooks)
-    * [usePost](#usepost)
-    * [useGet](#useget)
-    * [useSubmit](#usesubmit)
-* [Vanilla JS](#vanilla-js)
-    * [post](#post)
-    * [get](#get)
-
+[TOC]
  
-## Hooks ##
+## Hooks
 
 ---
 
-#### usePost ####
+#### usePost
 
-##### Example #####
+##### Example
 
 ```jsx
 function hello() {
@@ -47,7 +25,7 @@ function hello() {
 	return <h1>Hello {data.greeting.message}!</h1>;
 }
 ```
-##### Function Signature #####
+##### Function Signature
 
 ```jsx
 usePost(
@@ -56,13 +34,13 @@ usePost(
     dependencies?: Array = []
 ): FetchResult
 ```
-##### Params #####
-##### `url` #####
+##### Params
+##### `url`
 | PARAM    |      TYPE     |  DESCRIPTION                  |
 |----------|---------------|-------------------------------|
 | `url`    |  string       | The URL to supply to `fetch()`|
 
-##### `fetchOptions` #####
+##### `fetchOptions`
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
 | `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
@@ -70,12 +48,12 @@ usePost(
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
 
-##### `dependencies` #####
+##### `dependencies`
 | PARAM          |      TYPE     |  DESCRIPTION                                                                                                                           |
 |----------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | `dependencies` |  `array`      | The array of dependencies to pass to React's `useEffect`'s second parameter. Used to determine when this hook is fired. Default: `[]`. |
 
-##### `Result` #####
+##### `Result`
 | PROPERTY    |      TYPE                 |  DESCRIPTION                            | 
 |-------------|---------------------------|-----------------------------------------|
 | `data`      | `object`∣`undefined` | Data returned from query                |
@@ -86,9 +64,9 @@ usePost(
 
 ---
 
-#### useGet ####
+#### useGet
 
-##### Example #####
+##### Example
 
 ```jsx
 function hello() {
@@ -100,7 +78,7 @@ function hello() {
 	return <h1>Hello {data.greeting.message}!</h1>;
 }
 ```
-##### Function Signature #####
+##### Function Signature
 
 ```jsx
 useGet(
@@ -109,14 +87,14 @@ useGet(
     dependencies?: Array = []
 ): FetchResult
 ```
-##### Params #####
+##### Params
 
-##### `url` #####
+##### `url`
 | PARAM    |      TYPE     |  DESCRIPTION                  |
 |----------|---------------|-------------------------------|
 | `url`    |  string       | The URL to supply to `fetch()`|
 
-##### `fetchOptions` #####
+##### `fetchOptions`
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
 | `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
@@ -124,12 +102,12 @@ useGet(
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
 
-##### `dependencies` #####
+##### `dependencies`
 | PARAM          |      TYPE     |  DESCRIPTION                                                                                                                           |
 |----------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | `dependencies` |  `array`      | The array of dependencies to pass to React's `useEffect`'s second parameter. Used to determine when this hook is fired. Default: `[]`. |
 
-##### `Result` #####
+##### `Result`
 | PROPERTY    |      TYPE                 |  DESCRIPTION                            | 
 |-------------|---------------------------|-----------------------------------------|
 | `data`      | `object`∣`undefined` | Data returned from query                |
@@ -140,9 +118,9 @@ useGet(
 
 ---
 
-#### useSubmit ####
+#### useSubmit
 
-##### Example #####
+##### Example
 
 ```jsx
 function Hello() {
@@ -157,7 +135,7 @@ function Hello() {
 	return <h1>Hello {data.greeting.message}!</h1>;
 }
 ```
-##### Function Signature #####
+##### Function Signature
 
 ```jsx
 useSubmit(
@@ -165,14 +143,14 @@ useSubmit(
     fetchOptions?: fetchOptions = {}
 ): [(function(): void), FetchResult]
 ```
-##### Params #####
+##### Params
 
-##### `url` #####
+##### `url`
 | PARAM    |      TYPE     |  DESCRIPTION                  |
 |----------|---------------|-------------------------------|
 | `url`    |  string       | The URL to supply to `fetch()`|
 
-##### `fetchOptions` #####
+##### `fetchOptions`
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
 | `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
@@ -180,12 +158,12 @@ useSubmit(
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
 
-##### `dependencies` #####
+##### `dependencies`
 | PARAM          |      TYPE     |  DESCRIPTION                                                                                                                           |
 |----------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | `dependencies` |  `array`        | The array of dependencies to pass to React's `useEffect`'s second parameter. Used to determine when this hook is fired. Default: `[]`. |
 
-##### `Result` #####
+##### `Result`
 | PROPERTY    |      TYPE                 |  DESCRIPTION                                | 
 |-------------|---------------------------|---------------------------------------------|
 | `data`      | `object`∣`undefined` | Data returned from query                    |
@@ -195,13 +173,13 @@ useSubmit(
 | `payload`   | `Object`                  | Data passed down                            |
 | `called`    | `Boolean`                 | Whether or not the function has been called |
 
-## Vanilla JS ##
+## Vanilla JS
 
 ---
 
-#### post ####
+#### post
 
-##### Example #####
+##### Example
 
 ```jsx
 function App() {
@@ -216,7 +194,7 @@ function App() {
 	return <h1>Hello {data.greeting.message}!</h1>;
 }
 ```
-##### Function Signature #####
+##### Function Signature
 
 ```jsx
 post(
@@ -224,14 +202,14 @@ post(
     fetchOptions: fetchOptions
 ): Promise
 ```
-##### Params #####
+##### Params
 
-##### `url` #####
+##### `url`
 | PARAM    |      TYPE     |  DESCRIPTION                  |
 |----------|---------------|-------------------------------|
 | `url`    |  string       | The URL to supply to `fetch()`|
 
-##### `fetchOptions` #####
+##### `fetchOptions`
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
 | `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
@@ -241,9 +219,9 @@ post(
 
 ---
 
-#### get ####
+#### get
 
-##### Example #####
+##### Example
 
 ```jsx
 function Hello() {
@@ -258,7 +236,7 @@ function Hello() {
 	return <h1>Hello {data.greeting.message}!</h1>;
 }
 ```
-##### Function Signature #####
+##### Function Signature
 
 ```jsx
 get(
@@ -266,14 +244,14 @@ get(
     fetchOptions: fetchOptions
 ): Promise
 ```
-##### Params #####
+##### Params
 
-##### `url` #####
+##### `url`
 | PARAM    |      TYPE     |  DESCRIPTION                  |
 |----------|---------------|-------------------------------|
 | `url`    |  string       | The URL to supply to `fetch()`|
 
-##### `fetchOptions` #####
+##### `fetchOptions`
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
 | `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |

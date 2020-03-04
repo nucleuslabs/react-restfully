@@ -1,4 +1,4 @@
-const {isSet} = require('../src/fetch/util');
+import {isSet} from "../src/fetch/util";
 
 describe('isMap', function() {
 	test('Verify argument is a Set', function() {

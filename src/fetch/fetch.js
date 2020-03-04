@@ -10,6 +10,12 @@ const DEFAULT_HEADERS = {
 	//cache: 'only-if-cached' // *default, no-cache, reload, force-cache, only-if-cached
 };
 
+/** Wrapper for post() and get()
+ * @param {string} url
+ * @param {Object} headers
+ * @param {function} resolve
+ * @param {function} reject
+ * @return {Promise} */
 function fetchBase(url, headers, resolve, reject) {
 	return fetch(url, headers)
 		.then(resp =>
@@ -113,20 +119,24 @@ function thenHandlers({onCompleted, onError, payload, dispatch} = {}) {
 	]);
 }
 
-export function fetchResultObject(fetchOptions = {}) {
+/** Returns the default object defined in fetchResultObject.js.
+ * @param {FetchResult} fetchResults
+ * return {FetchResult}*/
+export function fetchResultObject(fetchResults = {}) {
 	let result = {
-		loading: hasProp(fetchOptions, 'loading') ? fetchOptions.loading : true,
+		loading: hasProp(fetchResults, 'loading') ? fetchResults.loading : true,
 		data: undefined,
 		hasErrors: false,
 		error: undefined,
-		payload: fetchOptions.payload || {},
+		payload: fetchResults.payload || {},
 	};
-	if(hasProp(fetchOptions, 'called')) {
-		result.called = fetchOptions.called;
+	if(hasProp(fetchResults, 'called')) {
+		result.called = fetchResults.called;
 	}
 	return result;
 }
 
+/** Exports that are only used in testing */
 export const testables = {
 	DEFAULT_HEADERS,
 	fetchBase,

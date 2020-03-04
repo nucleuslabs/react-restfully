@@ -1,6 +1,5 @@
-import {hasProp} from "../src/fetch/util";
+import {fetchResultObject} from "../src";
 
-const {fetchResultObject} = require('../src/fetch/fetch');
 describe('fetchResultObject', function() {
 	test('Verify result of correct returned Object', function() {
 		expect(fetchResultObject({})).toEqual({

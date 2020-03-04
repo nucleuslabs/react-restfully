@@ -1,4 +1,4 @@
-const {map2POJO} = require('../src/fetch/util');
+import {map2POJO} from "../src/fetch/util";
 
 describe('map2POJO', function() {
 	test("Verify conversion of Map to POJO (Plain Ol' Javascript Object)", function() {

@@ -1,4 +1,5 @@
-const {isFunction} = require('../src/fetch/util');
+import {isFunction} from "../src/fetch/util";
+
 
 describe('isFunction', function() {
 	test('Verify result of Function argument', function() {

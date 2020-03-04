@@ -1,4 +1,5 @@
-const {link} = require('../src/fetch/util');
+import {link} from "../src/fetch/util";
+
 describe('link', function() {
 	test('Verify result of Object argument', function() {
 		expect(link('somedomain.com', {foo: 'bar'})).toEqual('somedomain.com?foo=bar');

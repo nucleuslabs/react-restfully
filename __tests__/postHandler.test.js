@@ -1,6 +1,7 @@
-const {DEFAULT_HEADERS} = require('../src/fetch/fetch').testables;
-const {postHandler} = require('../src/fetch/fetch');
-const fetchMock = require('fetch-mock');
+import {postHandler, testables} from "../src";
+import fetchMock from 'fetch-mock';
+
+const {DEFAULT_HEADERS} = testables;
 
 describe('postHandler', function() {
 	test('Verify post() returns data onCompleted', () => {

@@ -1,8 +1,10 @@
-const {fetchBase, DEFAULT_HEADERS} = require('../src/fetch/fetch').testables;
-const fetchMock = require('fetch-mock');
+import {testables} from "../src";
+import fetchMock from 'fetch-mock';
+
+const {fetchBase, DEFAULT_HEADERS} = testables;
 
 describe('fetchBase', function() {
-	test('Verify fetchBase(POST) is working', () => {
+	test('Verify fetchBase(POST) will resolve', () => {
 		fetchMock.post('http://example.com', {data: 'yes'});
 		expect(fetchBase(
 			'http://example.com',
@@ -11,7 +13,7 @@ describe('fetchBase', function() {
 			err => err
 		)).resolves.toEqual({data: 'yes'});
 	});
-	test('Verify fetchBase(GET) is working', () => {
+	test('Verify fetchBase(GET) will resolve', () => {
 		fetchMock.get('http://example.com', {data: 'yes'});
 		expect(fetchBase(
 			'http://example.com',

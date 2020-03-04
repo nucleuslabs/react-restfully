@@ -1,4 +1,4 @@
-const {isObject} = require('../src/fetch/util');
+import {isObject} from "../src/fetch/util";
 
 describe('isObject', function() {
 	test('Verify result of Object argument', function() {

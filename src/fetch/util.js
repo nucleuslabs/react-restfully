@@ -1,7 +1,16 @@
+/** Determines if the provided variable is a Map.
+ * @param {*} val Value to check
+ * @return {boolean} */
 export const isMap = val => val instanceof Map;
 
+/** Determines if the provided variable is a Set.
+ * @param {*} val Value to check
+ * @return {boolean} */
 export const isSet = val => val instanceof Set;
 
+/** Converts a Map to a Plain Ol' Javascript Object (POJO)
+ * @param {Map} map Map to convert
+ * @return {boolean} */
 export const map2POJO = map => {
 	if(!isMap(map)) {
 		throw new Error('map2POJO received an incompatible argument type. Expected Map.');
@@ -9,12 +18,24 @@ export const map2POJO = map => {
 	return [...map.entries()].reduce((obj, [key, value]) => Object.assign(obj, {[key]: value}), {});
 };
 
+/** Determines if the provided variable is a Plain Ol' Javascript Object (POJO).
+ * @param {*} val Value to check
+ * @return {boolean} */
 export const isObject = val => (typeof val === 'object' && Object.prototype.toString.call(val) === '[object Object]');
 
+/** Determines if the provided variable is a Function.
+ * @param {*} val Value to check
+ * @return {boolean} */
 export const isFunction = val => typeof val === 'function';
 
+/** Determines if the provided variable is a String.
+ * @param {*} val Value to check
+ * @return {boolean} */
 export const isString = val => typeof val === 'string';
 
+/** Determines if the provided variable is empty. Performs similarly to PHP's empty().
+ * @param {*} val Value to check
+ * @return {boolean} */
 export const empty = val => (
 	(([undefined, null, false, 0, '0', '']).indexOf(val) !== -1)
 	|| (Array.isArray(val) && val.length === 0)
@@ -85,8 +106,7 @@ export function param(queryParams) {
 	throw Error("Bad type supplied to param()");
 }
 
-/**
- * If `queryParams` is a string it will be assumed to be a valid URL and returned as-is.
+/** If `queryParams` is a string it will be assumed to be a valid URL and returned as-is.
  * @param {string} base
  * @param {string|Object} queryParams Query/GET params
  * @returns {string} URL

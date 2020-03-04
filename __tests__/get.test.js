@@ -1,9 +1,10 @@
-const {DEFAULT_HEADERS} = require('../src/fetch/fetch').testables;
-const {get} = require('../src/fetch/fetch');
-const fetchMock = require('fetch-mock');
+import {testables, get} from "../src";
+import fetchMock from 'fetch-mock';
+
+const {DEFAULT_HEADERS} = testables;
 
 describe('post', function() {
-	test('Verify get() returns data', () => {
+	test('Verify get() will resolve', () => {
 		fetchMock.get('http://example.com', {data: 'yes'});
 		expect(get(
 			'http://example.com',

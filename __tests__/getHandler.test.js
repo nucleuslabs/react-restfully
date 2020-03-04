@@ -1,6 +1,7 @@
-const {DEFAULT_HEADERS} = require('../src/fetch/fetch').testables;
-const {getHandler} = require('../src/fetch/fetch');
-const fetchMock = require('fetch-mock');
+import {testables, getHandler} from "../src";
+import fetchMock from 'fetch-mock';
+
+const {DEFAULT_HEADERS} = testables;
 
 describe('getHandler', function() {
 	test('Verify get() returns data onCompleted', () => {

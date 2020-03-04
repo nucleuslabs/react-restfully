@@ -1,8 +1,7 @@
 import React from 'react';
-import {render, fireEvent, wait, cleanup} from "@testing-library/react";
+import {render, fireEvent, wait} from "@testing-library/react";
 import {useSubmit} from "../src";
-
-const fetchMock = require('fetch-mock');
+import fetchMock from 'fetch-mock';
 
 function TestComponent() {
 	const [loadGreeting, {called, loading, data}] = useSubmit('http://example.com', {
@@ -17,9 +16,9 @@ function TestComponent() {
 }
 
 describe('useSubmit', function() {
-	test('Verify useSubmit() hook returns data', async() => {
+	test('Verify useSubmit() hook behaves correctly', async() => {
 		fetchMock.post('http://example.com', {greeting: {message: 'Hello, world!'}});
-		let {findByTestId, getByTestId, toHaveTextContent, getByText, ...test} = render(<TestComponent/>);
+		let {getByTestId, getByText} = render(<TestComponent/>);
 		fireEvent.click(getByText("Load greeting"));
 		await wait(() => getByText("Hello, world!"));
 		expect((await getByTestId("h1")).textContent).toEqual('Hello, world!');

@@ -1,4 +1,4 @@
-const {isString} = require('../src/fetch/util');
+import {isString} from "../src/fetch/util";
 
 describe('isString', function() {
 	test('Verify result of String argument', function() {

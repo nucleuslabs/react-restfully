@@ -1,11 +1,10 @@
 import React from 'react';
-import {render, fireEvent, wait, cleanup} from "@testing-library/react";
-
-const {usePost} = require('../src/index');
-const fetchMock = require('fetch-mock');
+import {render, wait} from "@testing-library/react";
+import {usePost} from "../src";
+import fetchMock from 'fetch-mock';
 
 function TestComponent() {
-	const {data, loading, error} = usePost('http://example.com', {
+	const {data, loading} = usePost('http://example.com', {
 		variables: {language: 'english'},
 	});
 	if(loading) return <p>Loading ...</p>;
@@ -13,9 +12,9 @@ function TestComponent() {
 }
 
 describe('usePost', function() {
-	test('Verify usePost() hook returns data', async() => {
+	test('Verify usePost() hook behaves correctly', async() => {
 		fetchMock.post('http://example.com', {greeting: {message: 'Hello, world!'}});
-		let {findByTestId, getByTestId, toHaveTextContent, getByText, ...test} = render(<TestComponent/>);
+		let {getByTestId, getByText} = render(<TestComponent/>);
 		await wait(() => getByText("Hello, world!"));
 		expect((await getByTestId("h1")).textContent).toEqual('Hello, world!');
 		fetchMock.resetBehavior();

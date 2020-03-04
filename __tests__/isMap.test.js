@@ -1,4 +1,4 @@
-const {isMap} = require('../src/fetch/util');
+import {isMap} from "../src/fetch/util";
 
 describe('isMap', function() {
 	test('Verify argument is a Map', function() {
