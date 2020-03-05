@@ -1,3 +1,25 @@
+/** Converts an object to form data
+ * @param {Object|Map} obj Value to check
+ * @return {FormData} */
+export const objToFormData = obj => {
+	if(isMap(obj)) {
+		obj = map2POJO(obj);
+	}
+
+	let a = new FormData();
+	let formData = Object.entries(obj).reduce((acc, [name, value]) => {
+		acc.append(name, value);
+		return acc;
+	}, a);
+
+	return formData;
+};
+
+/** Determines if the provided variable is of type FormData.
+ * @param {*} val Value to check
+ * @return {boolean} */
+export const isFormData = val => val instanceof FormData;
+
 /** Determines if the provided variable is a Map.
  * @param {*} val Value to check
  * @return {boolean} */
