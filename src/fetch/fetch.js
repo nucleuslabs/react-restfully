@@ -1,30 +1,55 @@
-import {hasProp, isFunction, link} from "./util";
+import {empty, isFormData, isFunction, isObject, isset, isString, link, objToFormData, param, strCmpI} from "./util";
+import {ResponseTypes} from "./ResponseTypes";
+import {DefaultHeaders} from "./DefaultHeaders";
 
-/** Default headers to supply to fetch. Alternate headers can be provided through fetchOptions.headers*/
-const DEFAULT_HEADERS = {
-	"Accept": "application/json, text/javascript, */*; q=0.01",
-	"Content-Type": "application/json",
-	'X-Requested-With': 'XMLHttpRequest',
-	'credentials': 'include',
-	'mode': 'no-cors'
-	//cache: 'only-if-cached' // *default, no-cache, reload, force-cache, only-if-cached
-};
+/** Used to determine how to process the
+ * @param {Response} response
+ * @param {FetchOptions} fetchOptions
+ * @return {Promise} */
+function processResponse(response, {responseType}) {
+	switch(responseType) {
+		case ResponseTypes.JSON:
+			return response.json();
+		case ResponseTypes.TEXT:
+			return response.text();
+		case ResponseTypes.ARRAY_BUFFER:
+			return response.arrayBuffer();
+		case ResponseTypes.BLOB:
+			return response.blob();
+		case ResponseTypes.FORM_DATA:
+			return response.formData();
+		default:
+			throw new Error(`fetchOption.responseType value of '${responseType}' is invalid!`);
+	}
+}
 
 /** Wrapper for post() and get()
  * @param {string} url
  * @param {Object} headers
  * @param {function} resolve
  * @param {function} reject
+ * @param {FetchOptions} fetchOptions
  * @return {Promise} */
-function fetchBase(url, headers, resolve, reject) {
+function fetchBase(url, headers, resolve, reject, fetchOptions) {
 	return fetch(url, headers)
-		.then(resp =>
-			resp.json().then(
-				success => resp.ok
-					? resolve(success)
-					: reject(success),
-				({responseJSON}) => reject(responseJSON)
-			))
+		.then(response => {
+			if(!response.ok) {
+				reject({
+					hasErrors: true,
+					message: `${response.status}: ${response.statusText || 'Bad Request'}`
+				});
+			} else {
+				processResponse(response, fetchOptions).then(
+					success => {
+						console.log({success});
+						response.ok
+							? resolve(success)
+							: reject(success);
+					},
+					({responseJSON}) => reject(responseJSON)
+				);
+			}
+		})
 		.catch(err => {
 			console.error("An error occurred", err);
 			reject(err);
@@ -32,25 +57,46 @@ function fetchBase(url, headers, resolve, reject) {
 }
 
 
+/** Transforms payload into default types. Determined by headers['Content-Type']
+ * @param {*} payload
+ * @param {Headers} headers
+ * @returns {*} Formatted payload data */
+function transformPayloadDefault(payload, headers) {
+	const contentType = headers.get('content-type');
+	if(contentType) {
+		if(strCmpI(contentType, 'application/json')) {
+			payload = JSON.stringify(payload);
+		} else if(strCmpI(contentType, 'application/x-www-form-urlencoded')) {
+			payload = param(payload);
+		} else if(strCmpI(contentType, 'multi-part/form-encoded')) {
+			payload = isFormData(payload)
+				? payload
+				: objToFormData(payload);
+		}
+	}
+	return payload;
+}
+
 /** POST Fetch wrapper that behaves like postJson.
  * @param {String} url To be used with {@see link}
- * @param {fetchOptions} fetchOptions To be passed as through body
+ * @param {FetchOptions} fetchOptions To be passed as through body
  * @return {Promise}
  * */
 export function post(url, fetchOptions) {
-	const {payload, headers} = fetchOptions;
+	fetchOptions = fetchOptionsObject(fetchOptions);
+
 	return new Promise((resolve, reject) =>
 		fetchBase(link(url), {
 			method: 'POST',
-			body: JSON.stringify(payload),
-			headers: headers || DEFAULT_HEADERS
-		}, resolve, reject));
+			body: fetchOptions.payload,
+			headers: fetchOptions.headers
+		}, resolve, reject, fetchOptions));
 }
 
 /** POST wrapper with additional functionality.
  * Does not return a promise. Loading state management can be done for you by providing `loading` and `setLoading()`.
  * @param {String} url
- * @param {fetchOptions} fetchOptions
+ * @param {FetchOptions} fetchOptions
  * */
 export function postHandler(url, fetchOptions) {
 	const [success, error] = thenHandlers(fetchOptions);
@@ -59,22 +105,36 @@ export function postHandler(url, fetchOptions) {
 
 /** GET Fetch wrapper that behaves like postJson.
  * @param {String} url To be used with {@see link}
- * @param {fetchOptions} fetchOptions data To be built into GET params
+ * @param {FetchOptions} fetchOptions data To be built into GET params
  * @return {Promise}
  * */
 export function get(url, fetchOptions) {
-	const {payload, headers} = fetchOptions;
+	fetchOptions = fetchOptionsObject(fetchOptions);
 	return new Promise((resolve, reject) =>
-		fetchBase(link(url, payload), {
+		fetchBase(link(url, fetchOptions.payload), {
 			method: 'GET',
-			headers: headers || DEFAULT_HEADERS
-		}, resolve, reject));
+			headers: fetchOptions.headers
+		}, resolve, reject, fetchOptions));
+}
+
+/** TODO STREAM Fetch wrapper that behaves like postJson.
+ * @param {String} url To be used with {@see link}
+ * @param {FetchOptions} fetchOptions data To be built into GET params
+ * @return {Promise}
+ * */
+export function stream(url, fetchOptions) {
+	fetchOptions = fetchOptionsObject(fetchOptions);
+	return new Promise((resolve, reject) =>
+		fetchBase(link(url, fetchOptions.payload), {
+			method: 'GET',
+			headers: fetchOptions.headers
+		}, resolve, reject, fetchOptions));
 }
 
 /** GET wrapper with additional functionality. Does not return a promise.
  * Loading state management can be done for you by providing `loading` and `setLoading()`.
  * @param {String} url
- * @param {fetchOptions} fetchOptions
+ * @param {FetchOptions} fetchOptions
  * */
 export function getHandler(url, fetchOptions) {
 	const [success, error] = thenHandlers(fetchOptions);
@@ -119,26 +179,74 @@ function thenHandlers({onCompleted, onError, payload, dispatch} = {}) {
 	]);
 }
 
+/** Handles transformation of fetchOptions.payload (unless transform is set to FALSE).
+ * @param {FetchOptions} fetchOptions
+ * @returns {Object} Object containing the payload and headers */
+function handleRequestPayload(fetchOptions) {
+	fetchOptions.headers = ((!empty(fetchOptions.headers) && new Headers(fetchOptions.headers)) || DefaultHeaders);
+	if(fetchOptions.transform) {
+		if(isFunction(fetchOptions.transform)) {
+			fetchOptions.payload = fetchOptions.transform(fetchOptions.payload, fetchOptions.headers);
+		} else {
+			throw new Error('fetchOptions.transform has been provided the wrong type. Expected one of type ["function" | "Boolean"]');
+		}
+	}
+
+	if(isString(fetchOptions.payload)) {
+		fetchOptions.headers.set('Content-Length', fetchOptions.payload.length.toString());
+	}
+
+	return fetchOptions;
+}
+
+/** Returns the default object defined in fetchOptionsTypeDef.js.
+ * @param {FetchOptions} fetchOptions
+ * @return {FetchOptions}*/
+export function fetchOptionsObject({payload, headers, transform, onCompleted, onError, responseType} = {}) {
+	// Set the headers
+	if(empty(headers)) {
+		headers = DefaultHeaders;
+	} else {
+		if(isObject(headers)) {
+			headers = new Headers(headers);
+		} else if(!(headers instanceof '[object Headers]')) {
+			throw new Error('Unknown parameter type supplied to fetchOptions.headers. Expected one of type ["Object" | "Headers"]. "');
+		}
+	}
+
+	return handleRequestPayload({
+		payload: payload || {},
+		headers: ((!empty(headers) && new Headers(headers)) || DefaultHeaders),
+		responseType: responseType || ResponseTypes.JSON,
+		transform: transform || transformPayloadDefault,
+		onCompleted: onCompleted || undefined,
+		onError: onError || undefined,
+	});
+}
+
+
 /** Returns the default object defined in fetchResultObject.js.
- * @param {FetchResult} fetchResults
+ * @param {FetchResult|FetchOptions|Object} [fetchResultsOrOptions={}] Definition of the return object
  * @return {FetchResult}*/
-export function fetchResultObject(fetchResults = {}) {
+export function fetchResultObject({loading, payload, called} = {}) {
 	let result = {
-		loading: hasProp(fetchResults, 'loading') ? fetchResults.loading : true,
+		loading: loading || true,
 		data: undefined,
 		hasErrors: false,
 		error: undefined,
-		payload: fetchResults.payload || {},
+		payload: payload || {},
 	};
-	if(hasProp(fetchResults, 'called')) {
-		result.called = fetchResults.called;
+
+	if(isset(called)) {
+		result.called = called;
 	}
+
 	return result;
 }
 
 /** Exports that are only used in testing */
 export const testables = {
-	DEFAULT_HEADERS,
+	DefaultHeaders,
 	fetchBase,
 	thenHandlers
 };

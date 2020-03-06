@@ -1,10 +1,10 @@
 import {useEffect, useReducer} from "react";
 import {fetchResultObject, getHandler} from "../fetch/fetch";
-import '../fetch/FetchOptionsTypeDef';
+import '../fetch/JSDoc/FetchOptionsTypeDef';
 
 /** Uses GET to fetch data.
  * @param {String} url
- * @param {fetchOptions} fetchOptions - Options to supply
+ * @param {FetchOptions} fetchOptions - Options to supply
  * @param {array} dependencies - Array to be used for second parameter of useEffect()
  * @returns {FetchResult}
  * */

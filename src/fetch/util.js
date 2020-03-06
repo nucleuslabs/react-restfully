@@ -15,6 +15,10 @@ export const objToFormData = obj => {
 	return formData;
 };
 
+export function strCmpI(str1, str2) {
+	return str1.localeCompare(str2, undefined, {sensitivity: 'base'}) === 0;
+}
+
 /** Determines if the provided variable is of type FormData.
  * @param {*} val Value to check
  * @return {boolean} */
@@ -64,6 +68,8 @@ export const empty = val => (
 	|| (isObject(val) && Object.keys(val).length === 0)
 	|| ((isMap(val) || isSet(val)) && val.size === 0)
 );
+
+export const isset = val => (typeof val !== undefined);
 
 /**
  * Determines if an object has a key/property.

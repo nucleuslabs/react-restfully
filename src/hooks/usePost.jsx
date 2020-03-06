@@ -1,10 +1,10 @@
 import {useEffect, useReducer} from "react";
 import {fetchResultObject, postHandler} from "../fetch/fetch";
-import '../fetch/FetchOptionsTypeDef';
+import '../fetch/JSDoc/FetchOptionsTypeDef';
 
 /** Uses POST. Similar to ajaxLoader().
  * @param {String} url
- * @param {fetchOptions} fetchOptions - Route value
+ * @param {FetchOptions} fetchOptions - Route value
  * @param {array} dependencies - array Used for second parameter of useEffect()
  * @returns {FetchResult}
  * */
