@@ -1,3 +1,18 @@
+/** Determines if the provided variable is a Map.
+ * @param {*} val Value to check
+ * @return {boolean} */
+export const isMap = val => val instanceof Map;
+
+/** Converts a Map to a Plain Ol' Javascript Object (POJO)
+ * @param {Map} map Map to convert
+ * @return {boolean} */
+export const map2POJO = map => {
+	if(!isMap(map)) {
+		throw new Error('map2POJO received an incompatible argument type. Expected Map.');
+	}
+	return [...map.entries()].reduce((obj, [key, value]) => Object.assign(obj, {[key]: value}), {});
+};
+
 /** Converts an object to form data
  * @param {Object|Map} obj Value to check
  * @return {FormData} */
@@ -18,25 +33,10 @@ export function insensitiveStrCmp(str1, str2) {
  * @return {boolean} */
 export const isFormData = val => val instanceof FormData;
 
-/** Determines if the provided variable is a Map.
- * @param {*} val Value to check
- * @return {boolean} */
-export const isMap = val => val instanceof Map;
-
 /** Determines if the provided variable is a Set.
  * @param {*} val Value to check
  * @return {boolean} */
 export const isSet = val => val instanceof Set;
-
-/** Converts a Map to a Plain Ol' Javascript Object (POJO)
- * @param {Map} map Map to convert
- * @return {boolean} */
-export const map2POJO = map => {
-	if(!isMap(map)) {
-		throw new Error('map2POJO received an incompatible argument type. Expected Map.');
-	}
-	return [...map.entries()].reduce((obj, [key, value]) => Object.assign(obj, {[key]: value}), {});
-};
 
 /** Determines if the provided variable is a Plain Ol' Javascript Object (POJO).
  * @param {*} val Value to check
@@ -63,7 +63,7 @@ export const empty = val => (
 	|| ((isMap(val) || isSet(val)) && val.size === 0)
 );
 
-export const isset = val => (typeof val !== undefined);
+export const isset = val => (typeof val !== 'undefined');
 
 /**
  * Determines if an object has a key/property.

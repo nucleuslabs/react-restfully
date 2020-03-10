@@ -1,8 +1,8 @@
 import {objToFormData, param} from "../util";
 
-/** @enum {string} */
+/** @enum {function} */
 export const Transform = {
-	JSON: JSON.stringify,
-	URL_ENCODED: param,
-	FORM_ENCODED: objToFormData
+	JSON: p => JSON.stringify(p),
+	URL_ENCODED: p => param(p),
+	FORM_ENCODED: p => objToFormData(p)
 };

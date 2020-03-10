@@ -3,22 +3,28 @@ const usePost = require("./hooks/usePost");
 const useGet = require("./hooks/useGet");
 const useSubmit = require("./hooks/useSubmit");
 
-// Fetch JS (Promise-based functions)
-const fetch = require("./fetch/fetchBase");
-const get = require("./fetch/get");
-const post = require("./fetch/post");
+// Fetch JS
+//const {thenHandlers, handleRequestPayload, processResponse, fetchResultObject, fetchBase, fetchOptionsObject, transformPayloadDefault} = require("./fetch/fetchBase");
+const {get, getHandler} = require("./fetch/get");
+const {post, postHandler} = require("./fetch/post");
+
+// Objects
 const Transform = require("./fetch/objects/Transform");
 const ResponseTypes = require("./fetch/objects/ResponseTypes");
 const DefaultHeaders = require("./fetch/objects/DefaultHeaders");
 
 module.exports = {
+	// Hooks
 	...usePost,
 	...useGet,
 	...useSubmit,
-	...fetch,
+
+	// JS
+	get,
+	getHandler,
+	post,
+	postHandler,
 	...Transform,
 	...ResponseTypes,
 	...DefaultHeaders,
-	...get,
-	...post
 };

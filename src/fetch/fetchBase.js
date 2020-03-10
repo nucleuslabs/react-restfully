@@ -1,6 +1,7 @@
-import {empty, isFormData, isFunction, isObject, isset, isString, objToFormData, param, insensitiveStrCmp} from "./util";
+import {empty, isFormData, isFunction, isObject, isset, isString, insensitiveStrCmp} from "./util";
 import {ResponseTypes} from "./objects/ResponseTypes";
 import {DefaultHeaders} from "./objects/DefaultHeaders";
+import {Transform} from "./objects/Transform";
 
 /** Wrapper for post() and get()
  * @param {string} url
@@ -39,20 +40,20 @@ export function fetchBase(url, headers, resolve, reject, fetchOptions) {
  * @param {Response} response
  * @param {FetchOptions} fetchOptions
  * @return {Promise} */
-function processResponse(response, {responseType}) {
+export function processResponse(response, {responseType}) {
 	switch(responseType) {
-		case ResponseTypes.JSON:
-			return response.json();
-		case ResponseTypes.TEXT:
-			return response.text();
-		case ResponseTypes.ARRAY_BUFFER:
-			return response.arrayBuffer();
-		case ResponseTypes.BLOB:
-			return response.blob();
-		case ResponseTypes.FORM_DATA:
-			return response.formData();
-		default:
-			throw new Error(`fetchOption.responseType value of '${responseType}' is invalid!`);
+	case ResponseTypes.JSON:
+		return response.json();
+	case ResponseTypes.TEXT:
+		return response.text();
+	case ResponseTypes.ARRAY_BUFFER:
+		return response.arrayBuffer();
+	case ResponseTypes.BLOB:
+		return response.blob();
+	case ResponseTypes.FORM_DATA:
+		return response.formData();
+	default:
+		throw new Error(`fetchOption.responseType value of '${responseType}' is invalid!`);
 	}
 }
 
@@ -60,17 +61,18 @@ function processResponse(response, {responseType}) {
  * @param {*} payload
  * @param {Headers} headers
  * @returns {*} Formatted payload data */
-function transformPayloadDefault(payload, headers) {
+export function transformPayloadDefault(payload, headers) {
 	const contentType = headers.get('content-type');
 	if(contentType) {
 		if(insensitiveStrCmp(contentType, 'application/json')) {
+			payload = Transform.JSON(payload);
 			payload = JSON.stringify(payload);
 		} else if(insensitiveStrCmp(contentType, 'application/x-www-form-urlencoded')) {
-			payload = param(payload);
+			payload = Transform.URL_ENCODED(payload);
 		} else if(insensitiveStrCmp(contentType, 'multi-part/form-encoded')) {
 			payload = isFormData(payload)
 				? payload
-				: objToFormData(payload);
+				: Transform.FORM_ENCODED(payload);
 		}
 	}
 	return payload;
@@ -115,7 +117,7 @@ export function thenHandlers({onCompleted, onError, payload, dispatch} = {}) {
 /** Handles transformation of fetchOptions.payload (unless transform is set to FALSE).
  * @param {FetchOptions} fetchOptions
  * @returns {Object} Object containing the payload and headers */
-function handleRequestPayload(fetchOptions) {
+export function handleRequestPayload(fetchOptions) {
 	fetchOptions.headers = ((!empty(fetchOptions.headers) && new Headers(fetchOptions.headers)) || DefaultHeaders);
 	if(fetchOptions.transform) {
 		if(isFunction(fetchOptions.transform)) {
@@ -139,12 +141,10 @@ export function fetchOptionsObject({payload, headers, transform, onCompleted, on
 	// Set the headers
 	if(empty(headers)) {
 		headers = DefaultHeaders;
-	} else {
-		if(isObject(headers)) {
-			headers = new Headers(headers);
-		} else if(!(headers instanceof '[object Headers]')) {
-			throw new Error('Unknown parameter type supplied to fetchOptions.headers. Expected one of type ["Object" | "Headers"]. "');
-		}
+	} else if(isObject(headers)) {
+		headers = new Headers(headers);
+	} else if(!(headers instanceof '[object Headers]')) {
+		throw new Error('Unknown parameter type supplied to fetchOptions.headers. Expected one of type ["Object" | "Headers"]. "');
 	}
 
 	return handleRequestPayload({
@@ -175,11 +175,3 @@ export function fetchResultObject({loading, payload, called} = {}) {
 
 	return result;
 }
-
-/** Exports that are only used in testing */
-export const testables = {
-	DefaultHeaders,
-	fetchBase,
-	thenHandlers,
-	processResponse
-};
