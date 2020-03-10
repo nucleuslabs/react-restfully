@@ -2,17 +2,11 @@
  * @param {Object|Map} obj Value to check
  * @return {FormData} */
 export const objToFormData = obj => {
-	if(isMap(obj)) {
-		obj = map2POJO(obj);
-	}
-
-	let a = new FormData();
-	let formData = Object.entries(obj).reduce((acc, [name, value]) => {
+	let formData = new FormData();
+	return Object.entries(isMap(obj) ? map2POJO(obj) : obj).reduce((acc, [name, value]) => {
 		acc.append(name, value);
 		return acc;
-	}, a);
-
-	return formData;
+	}, formData);
 };
 
 export function insensitiveStrCmp(str1, str2) {
@@ -90,7 +84,7 @@ export function hasProp(obj, key) {
 }
 
 /**
- * Encodes a URI-component. Errors if that component is "." or ".." as these cannot be escpaed.
+ * Encodes a URI-component. Errors if that component is "." or ".." as these cannot be escaped.
  *
  * @param {string} str String the encode
  * @returns {string} URI-encoded string

@@ -179,7 +179,7 @@ export function fetchResultObject({loading, payload, called} = {}) {
 /** Exports that are only used in testing */
 export const testables = {
 	DefaultHeaders,
-	fetchBase: fetchBase,
+	fetchBase,
 	thenHandlers,
 	processResponse
 };
