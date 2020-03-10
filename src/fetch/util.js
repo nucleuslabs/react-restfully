@@ -1,3 +1,23 @@
+/** Determines if the provided variable is of type FormData.
+ * @param {*} val Value to check
+ * @return {boolean} */
+export const isFormData = val => val instanceof FormData;
+
+/** Determines if the provided variable is a Set.
+ * @param {*} val Value to check
+ * @return {boolean} */
+export const isSet = val => val instanceof Set;
+
+/** Determines if the provided variable is a Function.
+ * @param {*} val Value to check
+ * @return {boolean} */
+export const isFunction = val => typeof val === 'function';
+
+/** Determines if the provided variable is a String.
+ * @param {*} val Value to check
+ * @return {boolean} */
+export const isString = val => typeof val === 'string';
+
 /** Determines if the provided variable is a Map.
  * @param {*} val Value to check
  * @return {boolean} */
@@ -34,30 +54,10 @@ export const objToFormData = obj => {
 
 export function insensitiveStrCmp(str1, str2) {
 	if(!isString(str1) || !isString(str2)){
-		throw new Error('Wrong type supplied to insensitiveStrCmp. "String" expected')
+		throw new Error('Wrong type supplied to insensitiveStrCmp. "String" expected');
 	}
 	return str1.localeCompare(str2, undefined, {sensitivity: 'base'}) === 0;
 }
-
-/** Determines if the provided variable is of type FormData.
- * @param {*} val Value to check
- * @return {boolean} */
-export const isFormData = val => val instanceof FormData;
-
-/** Determines if the provided variable is a Set.
- * @param {*} val Value to check
- * @return {boolean} */
-export const isSet = val => val instanceof Set;
-
-/** Determines if the provided variable is a Function.
- * @param {*} val Value to check
- * @return {boolean} */
-export const isFunction = val => typeof val === 'function';
-
-/** Determines if the provided variable is a String.
- * @param {*} val Value to check
- * @return {boolean} */
-export const isString = val => typeof val === 'string';
 
 /** Determines if the provided variable is empty. Performs similarly to PHP's empty().
  * @param {*} val Value to check
