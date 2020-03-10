@@ -1,7 +1,5 @@
-import {testables} from "../src";
+import {thenHandlers} from "../src";
 import {isFunction} from "../src/fetch/util";
-
-const {thenHandlers} = testables;
 
 describe('fetchBase', () => {
 	test('Verify thenHandlers returns [2] functions', () => {

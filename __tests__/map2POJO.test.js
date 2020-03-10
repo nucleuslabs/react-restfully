@@ -7,9 +7,9 @@ describe('map2POJO', () => {
 	});
 	test('Ensure incompatible types throw an error', () => {
 		expect(() => {
-			param('foobar');
-			param([['foo', 'b a r']]);
-			param(new Set(['foo', 'bar']));
-		}).toThrowError();
+			map2POJO('foobar');
+			map2POJO([['foo', 'b a r']]);
+			map2POJO(new Set(['foo', 'bar']));
+		}).toThrowError('map2POJO received an incompatible argument type. Expected Map.');
 	});
 });

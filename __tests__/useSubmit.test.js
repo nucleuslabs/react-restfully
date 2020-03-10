@@ -1,27 +1,30 @@
-import React from 'react';
-import {render, fireEvent, wait} from "@testing-library/react";
+import React, {useEffect, useState} from 'react';
+import {render} from "@testing-library/react";
 import {useSubmit} from "../src";
 import fetchMock from 'fetch-mock';
 
 function TestComponent() {
+	const [testDone, setTestDone] = useState(false);
 	const [loadGreeting, {called, loading, data}] = useSubmit('http://example.com', {
-		variables: {language: 'english'},
+		onCompleted: () => setTestDone(true),
 	});
 
-	if(called && loading) return <p>Loading ...</p>;
-	if(!called) {
-		return <button onClick={() => loadGreeting()}>Load greeting</button>;
-	}
-	return <h1 data-testid="h1">{data.greeting.message}</h1>;
+	useEffect(() => {
+		if(!called) {
+			loadGreeting();
+			setTestDone(true);
+		}
+	}, []);
+
+	if(testDone) return <h1>Hello, world!</h1>;
+	return <p>Loading...</p>;
 }
 
 describe('useSubmit', () => {
 	test('Verify useSubmit() hook behaves correctly', async() => {
-		fetchMock.post('http://example.com', {greeting: {message: 'Hello, world!'}});
-		let {getByTestId, getByText} = render(<TestComponent/>);
-		fireEvent.click(getByText("Load greeting"));
-		await wait(() => getByText("Hello, world!"));
-		expect((await getByTestId("h1")).textContent).toEqual('Hello, world!');
+		fetchMock.post('http://example.com', {});
+		let {getByText} = render(<TestComponent/>);
+		expect((await getByText("Hello, world!")).textContent).toEqual('Hello, world!');
 		fetchMock.resetBehavior();
 	});
 });

@@ -43,7 +43,7 @@ usePost(
 ##### `fetchOptions`
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
-| `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
+| `headers`     | `array`             | Headers (See `fetch.DefaultHeaders`)                                        |
 | `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
@@ -99,7 +99,7 @@ useGet(
 ##### `fetchOptions`
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
-| `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
+| `headers`     | `array`             | Headers (See `fetch.DefaultHeaders`)                                        |
 | `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
@@ -157,7 +157,7 @@ useSubmit(
 ##### `fetchOptions`
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
-| `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
+| `headers`     | `array`             | Headers (See `fetch.DefaultHeaders`)                                        |
 | `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
@@ -218,7 +218,7 @@ post(
 ##### `fetchOptions`
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
-| `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
+| `headers`     | `array`             | Headers (See `fetch.DefaultHeaders`)                                        |
 | `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
@@ -262,7 +262,7 @@ get(
 ##### `fetchOptions`
 | OPTION        |      TYPE           |  DESCRIPTION                                                                 |
 |---------------|---------------------|------------------------------------------------------------------------------|
-| `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
+| `headers`     | `array`             | Headers (See `fetch.DefaultHeaders`)                                        |
 | `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |

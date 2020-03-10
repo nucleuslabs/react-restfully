@@ -1,7 +1,5 @@
-import {postHandler, testables} from "../src";
+import {postHandler, DefaultHeaders} from "../src";
 import fetchMock from 'fetch-mock';
-
-const {DEFAULT_HEADERS} = testables;
 
 describe('postHandler', () => {
 	test('Verify post() returns data onCompleted', () => {
@@ -11,7 +9,7 @@ describe('postHandler', () => {
 			{
 				method: 'POST',
 				onCompleted: d => expect(d).toEqual({data: 'yes'}),
-				...DEFAULT_HEADERS
+				headers: DefaultHeaders
 			},
 		);
 		fetchMock.resetBehavior();
@@ -22,8 +20,8 @@ describe('postHandler', () => {
 			'http://example.com',
 			{
 				method: 'POST',
-				onError: err => expect(err).toEqual({message: 'Whoops, looks like something went wrong.'}),
-				...DEFAULT_HEADERS
+				onError: err => expect(err).toBeTruthy(),
+				headers: DefaultHeaders
 			},
 		);
 		fetchMock.resetBehavior();

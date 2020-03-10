@@ -4,9 +4,7 @@ import {useGet} from "../src";
 import fetchMock from 'fetch-mock';
 
 function TestComponent() {
-	const {data, loading} = useGet('http://example.com', {
-		variables: {language: 'english'},
-	});
+	const {data, loading} = useGet('http://example.com');
 	if(loading) return <p>Loading ...</p>;
 	return <h1 data-testid="h1">{data.greeting.message}</h1>;
 }

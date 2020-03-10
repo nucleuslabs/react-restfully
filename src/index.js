@@ -4,7 +4,7 @@ const useGet = require("./hooks/useGet");
 const useSubmit = require("./hooks/useSubmit");
 
 // Fetch JS
-//const {thenHandlers, handleRequestPayload, processResponse, fetchResultObject, fetchBase, fetchOptionsObject, transformPayloadDefault} = require("./fetch/fetchBase");
+const {thenHandlers, fetchResultObject, fetchBase} = require("./fetch/fetchBase");
 const {get, getHandler} = require("./fetch/get");
 const {post, postHandler} = require("./fetch/post");
 
@@ -24,6 +24,9 @@ module.exports = {
 	getHandler,
 	post,
 	postHandler,
+	thenHandlers,
+	fetchBase,
+	fetchResultObject,
 	...Transform,
 	...ResponseTypes,
 	...DefaultHeaders,

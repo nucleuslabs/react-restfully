@@ -10,7 +10,7 @@ import {Transform} from "./objects/Transform";
  * @param {function} reject
  * @param {FetchOptions} fetchOptions
  * @return {Promise} */
-export function fetchBase(url, headers, resolve, reject, fetchOptions) {
+export function fetchBase(url, headers, resolve, reject, fetchOptions = {}) {
 	return fetch(url, headers)
 		.then(response => {
 			if(!response.ok) {
@@ -19,7 +19,7 @@ export function fetchBase(url, headers, resolve, reject, fetchOptions) {
 					message: `${response.status}: ${response.statusText || 'Bad Request'}`
 				});
 			} else {
-				processResponse(response, fetchOptions)
+				processResponse(response, fetchOptions.responseType)
 					.then(
 						success => {
 							response.ok
@@ -37,10 +37,10 @@ export function fetchBase(url, headers, resolve, reject, fetchOptions) {
 }
 
 /** Used to determine how to process the
- * @param {Response} response
- * @param {FetchOptions} fetchOptions
+ * @param {Response|Object} response
+ * @param {ResponseTypes|string} responseType
  * @return {Promise} */
-export function processResponse(response, {responseType}) {
+export function processResponse(response, responseType = ResponseTypes.JSON) {
 	switch(responseType) {
 	case ResponseTypes.JSON:
 		return response.json();
@@ -63,7 +63,7 @@ export function processResponse(response, {responseType}) {
  * @returns {*} Formatted payload data */
 export function transformPayloadDefault(payload, headers) {
 	const contentType = headers.get('content-type');
-	if(contentType) {
+	if(contentType && !empty(payload)) {
 		if(insensitiveStrCmp(contentType, 'application/json')) {
 			payload = Transform.JSON(payload);
 			payload = JSON.stringify(payload);
@@ -143,7 +143,7 @@ export function fetchOptionsObject({payload, headers, transform, onCompleted, on
 		headers = DefaultHeaders;
 	} else if(isObject(headers)) {
 		headers = new Headers(headers);
-	} else if(!(headers instanceof '[object Headers]')) {
+	} else if(!(headers instanceof Headers)) {
 		throw new Error('Unknown parameter type supplied to fetchOptions.headers. Expected one of type ["Object" | "Headers"]. "');
 	}
 

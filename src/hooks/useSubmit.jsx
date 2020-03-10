@@ -10,6 +10,7 @@ import {postHandler} from "../fetch/post";
  * @returns {[function():void, FetchResult]} - Array containing [submitFunction, fetchResults]
  * */
 export function useSubmit(url, fetchOptions = {}) {
+	/* istanbul ignore next */
 	const [state, dispatch] = useReducer(
 		(state, action) => Object.assign({}, state, action),
 		fetchResultObject(Object.assign(fetchOptions, {loading: false, called: false}))
@@ -17,10 +18,13 @@ export function useSubmit(url, fetchOptions = {}) {
 
 	const submit = (fetchOptionsAlt = {}) => {
 		if(!state.loading) {
+			/* istanbul ignore next */
 			dispatch({loading: true, called: true});
+			/* istanbul ignore next */
 			if(hasProp(fetchOptionsAlt, 'payload')) {
 				fetchOptions.payload = fetchOptionsAlt.payload;
 			}
+			/* istanbul ignore next */
 			postHandler(url, Object.assign({}, fetchOptions, {state, dispatch}));
 		}
 	};

@@ -1,7 +1,7 @@
 /**
  * Fetch Options.
  * @typedef {Object} FetchOptions
- * @property {Object|Headers} [headers=] - Headers (See fetchBase~DEFAULT_HEADERS)
+ * @property {Object|Headers} [headers=] - Headers (See fetchBase~DefaultHeaders)
  * @property {Object|Map|string} [payload=] - Data to pass down. (Note: Payload is appended to the URL for Get requests)
  * @property {function|undefined} [onCompleted=] - Callback on successful fetchBase
  * @property {function|undefined} [onError=] - Callback on failed fetchBase

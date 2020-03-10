@@ -13,11 +13,19 @@ export const map2POJO = map => {
 	return [...map.entries()].reduce((obj, [key, value]) => Object.assign(obj, {[key]: value}), {});
 };
 
+/** Determines if the provided variable is a Plain Ol' Javascript Object (POJO).
+ * @param {*} val Value to check
+ * @return {boolean} */
+export const isObject = val => (typeof val === 'object' && Object.prototype.toString.call(val) === '[object Object]');
+
 /** Converts an object to form data
  * @param {Object|Map} obj Value to check
  * @return {FormData} */
 export const objToFormData = obj => {
 	let formData = new FormData();
+	if(!(isMap(obj) || isObject(obj))) {
+		throw new Error('Wrong type supplied to objToFormData. Expected one of type ["Map", "Object"]');
+	}
 	return Object.entries(isMap(obj) ? map2POJO(obj) : obj).reduce((acc, [name, value]) => {
 		acc.append(name, value);
 		return acc;
@@ -25,6 +33,9 @@ export const objToFormData = obj => {
 };
 
 export function insensitiveStrCmp(str1, str2) {
+	if(!isString(str1) || !isString(str2)){
+		throw new Error('Wrong type supplied to insensitiveStrCmp. "String" expected')
+	}
 	return str1.localeCompare(str2, undefined, {sensitivity: 'base'}) === 0;
 }
 
@@ -37,11 +48,6 @@ export const isFormData = val => val instanceof FormData;
  * @param {*} val Value to check
  * @return {boolean} */
 export const isSet = val => val instanceof Set;
-
-/** Determines if the provided variable is a Plain Ol' Javascript Object (POJO).
- * @param {*} val Value to check
- * @return {boolean} */
-export const isObject = val => (typeof val === 'object' && Object.prototype.toString.call(val) === '[object Object]');
 
 /** Determines if the provided variable is a Function.
  * @param {*} val Value to check
