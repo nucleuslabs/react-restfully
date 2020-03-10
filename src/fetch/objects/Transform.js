@@ -1,4 +1,4 @@
-import {objToFormData, param} from "./util";
+import {objToFormData, param} from "../util";
 
 /** @enum {string} */
 export const Transform = {

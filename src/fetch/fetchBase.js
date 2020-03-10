@@ -1,6 +1,39 @@
-import {empty, isFormData, isFunction, isObject, isset, isString, link, objToFormData, param, strCmpI} from "./util";
-import {ResponseTypes} from "./ResponseTypes";
-import {DefaultHeaders} from "./DefaultHeaders";
+import {empty, isFormData, isFunction, isObject, isset, isString, objToFormData, param, insensitiveStrCmp} from "./util";
+import {ResponseTypes} from "./objects/ResponseTypes";
+import {DefaultHeaders} from "./objects/DefaultHeaders";
+
+/** Wrapper for post() and get()
+ * @param {string} url
+ * @param {Object} headers
+ * @param {function} resolve
+ * @param {function} reject
+ * @param {FetchOptions} fetchOptions
+ * @return {Promise} */
+export function fetchBase(url, headers, resolve, reject, fetchOptions) {
+	return fetch(url, headers)
+		.then(response => {
+			if(!response.ok) {
+				reject({
+					hasErrors: true,
+					message: `${response.status}: ${response.statusText || 'Bad Request'}`
+				});
+			} else {
+				processResponse(response, fetchOptions)
+					.then(
+						success => {
+							response.ok
+								? resolve(success)
+								: reject(success);
+						},
+						({responseJSON}) => reject(responseJSON)
+					);
+			}
+		})
+		.catch(err => {
+			console.error("An error occurred", err);
+			reject(err);
+		});
+}
 
 /** Used to determine how to process the
  * @param {Response} response
@@ -23,40 +56,6 @@ function processResponse(response, {responseType}) {
 	}
 }
 
-/** Wrapper for post() and get()
- * @param {string} url
- * @param {Object} headers
- * @param {function} resolve
- * @param {function} reject
- * @param {FetchOptions} fetchOptions
- * @return {Promise} */
-function fetchBase(url, headers, resolve, reject, fetchOptions) {
-	return fetch(url, headers)
-		.then(response => {
-			if(!response.ok) {
-				reject({
-					hasErrors: true,
-					message: `${response.status}: ${response.statusText || 'Bad Request'}`
-				});
-			} else {
-				processResponse(response, fetchOptions).then(
-					success => {
-						console.log({success});
-						response.ok
-							? resolve(success)
-							: reject(success);
-					},
-					({responseJSON}) => reject(responseJSON)
-				);
-			}
-		})
-		.catch(err => {
-			console.error("An error occurred", err);
-			reject(err);
-		});
-}
-
-
 /** Transforms payload into default types. Determined by headers['Content-Type']
  * @param {*} payload
  * @param {Headers} headers
@@ -64,11 +63,11 @@ function fetchBase(url, headers, resolve, reject, fetchOptions) {
 function transformPayloadDefault(payload, headers) {
 	const contentType = headers.get('content-type');
 	if(contentType) {
-		if(strCmpI(contentType, 'application/json')) {
+		if(insensitiveStrCmp(contentType, 'application/json')) {
 			payload = JSON.stringify(payload);
-		} else if(strCmpI(contentType, 'application/x-www-form-urlencoded')) {
+		} else if(insensitiveStrCmp(contentType, 'application/x-www-form-urlencoded')) {
 			payload = param(payload);
-		} else if(strCmpI(contentType, 'multi-part/form-encoded')) {
+		} else if(insensitiveStrCmp(contentType, 'multi-part/form-encoded')) {
 			payload = isFormData(payload)
 				? payload
 				: objToFormData(payload);
@@ -77,75 +76,11 @@ function transformPayloadDefault(payload, headers) {
 	return payload;
 }
 
-/** POST Fetch wrapper that behaves like postJson.
- * @param {String} url To be used with {@see link}
- * @param {FetchOptions} fetchOptions To be passed as through body
- * @return {Promise}
- * */
-export function post(url, fetchOptions) {
-	fetchOptions = fetchOptionsObject(fetchOptions);
-
-	return new Promise((resolve, reject) =>
-		fetchBase(link(url), {
-			method: 'POST',
-			body: fetchOptions.payload,
-			headers: fetchOptions.headers
-		}, resolve, reject, fetchOptions));
-}
-
-/** POST wrapper with additional functionality.
- * Does not return a promise. Loading state management can be done for you by providing `loading` and `setLoading()`.
- * @param {String} url
- * @param {FetchOptions} fetchOptions
- * */
-export function postHandler(url, fetchOptions) {
-	const [success, error] = thenHandlers(fetchOptions);
-	post(url, fetchOptions).then(success, error);
-}
-
-/** GET Fetch wrapper that behaves like postJson.
- * @param {String} url To be used with {@see link}
- * @param {FetchOptions} fetchOptions data To be built into GET params
- * @return {Promise}
- * */
-export function get(url, fetchOptions) {
-	fetchOptions = fetchOptionsObject(fetchOptions);
-	return new Promise((resolve, reject) =>
-		fetchBase(link(url, fetchOptions.payload), {
-			method: 'GET',
-			headers: fetchOptions.headers
-		}, resolve, reject, fetchOptions));
-}
-
-/** TODO STREAM Fetch wrapper that behaves like postJson.
- * @param {String} url To be used with {@see link}
- * @param {FetchOptions} fetchOptions data To be built into GET params
- * @return {Promise}
- * */
-export function stream(url, fetchOptions) {
-	fetchOptions = fetchOptionsObject(fetchOptions);
-	return new Promise((resolve, reject) =>
-		fetchBase(link(url, fetchOptions.payload), {
-			method: 'GET',
-			headers: fetchOptions.headers
-		}, resolve, reject, fetchOptions));
-}
-
-/** GET wrapper with additional functionality. Does not return a promise.
- * Loading state management can be done for you by providing `loading` and `setLoading()`.
- * @param {String} url
- * @param {FetchOptions} fetchOptions
- * */
-export function getHandler(url, fetchOptions) {
-	const [success, error] = thenHandlers(fetchOptions);
-	get(url, fetchOptions).then(success, error);
-}
-
 /** Default Fetch.then() parameters to supply.
  * To be used with {@see postHandler} and {@see getHandler}
  * @param {object} props={}
  * @returns {function[]}*/
-function thenHandlers({onCompleted, onError, payload, dispatch} = {}) {
+export function thenHandlers({onCompleted, onError, payload, dispatch} = {}) {
 	return ([
 		success => {
 			if(isFunction(onCompleted)) {
@@ -164,8 +99,6 @@ function thenHandlers({onCompleted, onError, payload, dispatch} = {}) {
 			let errorRes = err || {message: 'Whoops, looks like something went wrong.'};
 			if(isFunction(onError)) {
 				onError(errorRes);
-			} else {
-				throw new Error(errorRes);
 			}
 			if(isFunction(dispatch)) {
 				dispatch({
@@ -201,7 +134,7 @@ function handleRequestPayload(fetchOptions) {
 
 /** Returns the default object defined in fetchOptionsTypeDef.js.
  * @param {FetchOptions} fetchOptions
- * @return {FetchOptions}*/
+ * @return {FetchOptions} */
 export function fetchOptionsObject({payload, headers, transform, onCompleted, onError, responseType} = {}) {
 	// Set the headers
 	if(empty(headers)) {
@@ -223,7 +156,6 @@ export function fetchOptionsObject({payload, headers, transform, onCompleted, on
 		onError: onError || undefined,
 	});
 }
-
 
 /** Returns the default object defined in fetchResultObject.js.
  * @param {FetchResult|FetchOptions|Object} [fetchResultsOrOptions={}] Definition of the return object
@@ -247,6 +179,7 @@ export function fetchResultObject({loading, payload, called} = {}) {
 /** Exports that are only used in testing */
 export const testables = {
 	DefaultHeaders,
-	fetchBase,
-	thenHandlers
+	fetchBase: fetchBase,
+	thenHandlers,
+	processResponse
 };

@@ -1,6 +1,7 @@
 import {useEffect, useReducer} from "react";
-import {fetchResultObject, postHandler} from "../fetch/fetch";
+import {fetchResultObject} from "../fetch/fetchBase";
 import '../fetch/JSDoc/FetchOptionsTypeDef';
+import {postHandler} from "../fetch/post";
 
 /** Uses POST. Similar to ajaxLoader().
  * @param {String} url

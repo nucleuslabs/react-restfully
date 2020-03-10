@@ -1,7 +1,8 @@
 import {useReducer} from "react";
-import {fetchResultObject, postHandler} from "../fetch/fetch";
+import {fetchResultObject} from "../fetch/fetchBase";
 import '../fetch/JSDoc/FetchOptionsTypeDef';
 import {hasProp} from "../fetch/util";
+import {postHandler} from "../fetch/post";
 
 /** Uses useLateEffect to implement a submit hook. Behaves similarly to usePost().
  * @param {String} url

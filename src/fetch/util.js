@@ -15,7 +15,7 @@ export const objToFormData = obj => {
 	return formData;
 };
 
-export function strCmpI(str1, str2) {
+export function insensitiveStrCmp(str1, str2) {
 	return str1.localeCompare(str2, undefined, {sensitivity: 'base'}) === 0;
 }
 
@@ -116,7 +116,7 @@ export function encodeUriComponent(str) {
  */
 export function param(queryParams) {
 	// Generates functions to be used
-	const _reduce = isObj => {
+	const _reduce = () => {
 		const _build = (acc, name, value) => {
 			acc.push(`${encodeUriComponent(name)}=${encodeUriComponent(value)}`);
 			return acc;
@@ -127,16 +127,16 @@ export function param(queryParams) {
 	};
 
 	if(isObject(queryParams)) {
-		return Object.entries(queryParams).reduce(_reduce(true), []).join('&').replace(/%20/g, '+');
+		return Object.entries(queryParams).reduce(_reduce(), []).join('&').replace(/%20/g, '+');
 	} else if(Array.isArray(queryParams)) {
-		return queryParams.reduce(_reduce(true), []).join('&').replace(/%20/g, '+');
+		return queryParams.reduce(_reduce(), []).join('&').replace(/%20/g, '+');
 	}
 	throw Error("Bad type supplied to param()");
 }
 
 /** If `queryParams` is a string it will be assumed to be a valid URL and returned as-is.
  * @param {string} base
- * @param {string|Object} queryParams Query/GET params
+ * @param {string|Object|Map} queryParams Query/GET params
  * @returns {string} URL
  */
 export function link(base, queryParams = undefined) {
