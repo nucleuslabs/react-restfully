@@ -30,7 +30,7 @@ function hello() {
 ```jsx
 usePost(
     url: String,
-    fetchOptions: fetchOptions, 
+    fetchOptions: fetchOptions = {}, 
     dependencies?: Array = []
 ): FetchResult
 ```
@@ -47,6 +47,8 @@ usePost(
 | `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
+| `transform`   | `Transform`∣`function`∣`boolean` | Overrides default formatting of payload. Setting to FALSE will prevent any transformation to payload. (Note that the Transform object contains default transformation operations).        |
+| `onError`     | `ResponseTypes`     | Function used to handle the response body.                                    |
 
 ##### `dependencies`
 | PARAM          |      TYPE     |  DESCRIPTION                                                                                                                           |
@@ -101,6 +103,8 @@ useGet(
 | `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
+| `transform`   | `Transform`∣`function`∣`boolean` | Overrides default formatting of payload. Setting to FALSE will prevent any transformation to payload. (Note that the Transform object contains default transformation operations).        |
+| `onError`     | `ResponseTypes`     | Function used to handle the response body.                                    |
 
 ##### `dependencies`
 | PARAM          |      TYPE     |  DESCRIPTION                                                                                                                           |
@@ -157,6 +161,8 @@ useSubmit(
 | `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
+| `transform`   | `Transform`∣`function`∣`boolean` | Overrides default formatting of payload. Setting to FALSE will prevent any transformation to payload. (Note that the Transform object contains default transformation operations).        |
+| `onError`     | `ResponseTypes`     | Function used to handle the response body.                                    |
 
 ##### `dependencies`
 | PARAM          |      TYPE     |  DESCRIPTION                                                                                                                           |
@@ -186,7 +192,7 @@ function App() {
 	const [data, setData] = useState();
 	useEffect(() => {
 		post('https://gfgfsdagfsdagfsda.free.beeceptor.com/test', {
-			variables: {language: 'english'},
+			payload: {language: 'english'},
 		}).then(data => setData(data));
 	}, []);
 
@@ -199,7 +205,7 @@ function App() {
 ```jsx
 post(
     url: Object,
-    fetchOptions: fetchOptions
+    fetchOptions: fetchOptions = {}
 ): Promise
 ```
 ##### Params
@@ -216,6 +222,8 @@ post(
 | `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
+| `transform`   | `Transform`∣`function`∣`boolean` | Overrides default formatting of payload. Setting to FALSE will prevent any transformation to payload. (Note that the Transform object contains default transformation operations).        |
+| `onError`     | `ResponseTypes`     | Function used to handle the response body.                                    |
 
 ---
 
@@ -228,7 +236,7 @@ function Hello() {
 	const [data, setData] = useState();
 	useEffect(() => {
 		get('__URL__', {
-			variables: {language: 'english'},
+			payload: {language: 'english'},
 		}).then(data => setData(data));
 	}, []);
 
@@ -241,7 +249,7 @@ function Hello() {
 ```jsx
 get(
     url: Object,
-    fetchOptions: fetchOptions
+    fetchOptions: fetchOptions = {} 
 ): Promise
 ```
 ##### Params
@@ -256,6 +264,7 @@ get(
 |---------------|---------------------|------------------------------------------------------------------------------|
 | `headers`     | `array`             | Headers (See `fetch.DEFAULT_HEADERS`)                                        |
 | `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
-| `payload`     | `Object`∣`Map` | Data to pass down. (Note: `payload` is appended to the URL for Get requests) |
 | `onCompleted` | `function`          | Callback on successful fetch                                                 |
 | `onError`     | `function`          | Callback on failed fetch                                                     |
+| `transform`   | `Transform`∣`function`∣`boolean` | Overrides default formatting of payload. Setting to FALSE will prevent any transformation to payload. (Note that the Transform object contains default transformation operations).        |
+| `onError`     | `ResponseTypes`     | Function used to handle the response body.                                    |
