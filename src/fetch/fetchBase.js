@@ -16,7 +16,7 @@ export function fetchBase(url, headers, resolve, reject, fetchOptions = {}) {
 			if(!response.ok) {
 				reject({
 					hasErrors: true,
-					message: `${response.status}: ${response.statusText || 'Bad Request'}`
+					error: {message: `${response.status}: ${response.statusText || 'Bad Request'}`}
 				});
 			} else {
 				processResponse(response, fetchOptions.responseType)
@@ -26,7 +26,7 @@ export function fetchBase(url, headers, resolve, reject, fetchOptions = {}) {
 								? resolve(success)
 								: reject(success);
 						},
-						({responseJSON}) => reject(responseJSON)
+						(err) => reject(err)
 					);
 			}
 		})
@@ -66,7 +66,6 @@ export function transformPayloadDefault(payload, headers) {
 	if(contentType && !empty(payload)) {
 		if(insensitiveStrCmp(contentType, 'application/json')) {
 			payload = Transform.JSON(payload);
-			payload = JSON.stringify(payload);
 		} else if(insensitiveStrCmp(contentType, 'application/x-www-form-urlencoded')) {
 			payload = Transform.URL_ENCODED(payload);
 		} else if(insensitiveStrCmp(contentType, 'multi-part/form-encoded')) {
@@ -103,6 +102,7 @@ export function thenHandlers({onCompleted, onError, payload, dispatch} = {}) {
 				onError(errorRes);
 			}
 			if(isFunction(dispatch)) {
+				/* istanbul ignore next */
 				dispatch({
 					loading: false,
 					hasErrors: true,
