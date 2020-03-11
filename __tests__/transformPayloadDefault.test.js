@@ -16,5 +16,8 @@ describe('handleRequestPayload', () => {
 		expect(transformPayloadDefault({foo: 'bar'}, new Headers({"content-type": 'multi-part/form-encoded'})))
 			.toEqual(formData);
 
+		// non-modified payload
+		expect(transformPayloadDefault('foobar', new Headers({"content-type": 'single-part/imaginary'})))
+			.toEqual('foobar');
 	});
 });

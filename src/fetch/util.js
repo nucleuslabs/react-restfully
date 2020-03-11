@@ -16,7 +16,7 @@ export const isFunction = val => typeof val === 'function';
 /** Determines if the provided variable is a String.
  * @param {*} val Value to check
  * @return {boolean} */
-export const isString = val => typeof val === 'string';
+export const isString = val => typeof val === 'string' || (val && val instanceof String);
 
 /** Determines if the provided variable is a Map.
  * @param {*} val Value to check

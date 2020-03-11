@@ -4,7 +4,7 @@ describe('isString', () => {
 	test('Verify result of String argument', () => {
 		expect(isString('')).toEqual(true);
 		expect(isString('foobar')).toEqual(true);
-		expect(isString(new String('I Like Cheese'))).toEqual(true);
+		expect(isString((new String('I Like Cheese')))).toEqual(true);
 		expect(isString('true')).toEqual(true);
 		expect(isString('123')).toEqual(true);
 	});
