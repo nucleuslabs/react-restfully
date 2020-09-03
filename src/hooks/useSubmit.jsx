@@ -17,7 +17,7 @@ export function useSubmit(url, fetchOptions = {}) {
 	);
 
 	const submit = (fetchOptionsAlt = {}) => {
-		if(!state.loading) {
+		if(!state.loading || !state.called) {
 			/* istanbul ignore next */
 			dispatch({loading: true, called: true});
 			/* istanbul ignore next */
