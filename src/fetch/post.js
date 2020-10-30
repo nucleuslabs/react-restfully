@@ -1,4 +1,4 @@
-import {link} from "./util";
+import {isFunction, link} from "./util";
 import {fetchBase, fetchOptionsObject, thenHandlers} from "./fetchBase";
 
 /** POST Fetch wrapper that behaves like postJson.
@@ -12,7 +12,7 @@ export function post(url, fetchOptions) {
 	return new Promise((resolve, reject) =>
 		fetchBase(link(url), {
 			method: 'POST',
-			body: fetchOptions.payload,
+			body: isFunction(fetchOptions.payload) ? fetchOptions.payload() : fetchOptions.payload,
 			headers: fetchOptions.headers
 		}, resolve, reject, fetchOptions));
 }
