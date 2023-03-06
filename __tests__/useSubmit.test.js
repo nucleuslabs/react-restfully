@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {render} from "@testing-library/react";
+import {render, act} from "@testing-library/react";
 import {useSubmit} from "../src";
 import fetchMock from 'fetch-mock';
 
@@ -24,7 +24,7 @@ describe('useSubmit', () => {
 	test('Verify useSubmit() hook behaves correctly', async() => {
 		fetchMock.post('http://example.com', {});
 		let {getByText} = render(<TestComponent/>);
+		await act(() => {});   // This silences some act() warnings from the render causing side effects.
 		expect((await getByText("Hello, world!")).textContent).toEqual('Hello, world!');
-		fetchMock.resetBehavior();
 	});
 });
