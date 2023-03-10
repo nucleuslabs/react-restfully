@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, wait} from "@testing-library/react";
+import {render, waitFor} from "@testing-library/react";
 import {useGet} from "../src";
 import fetchMock from 'fetch-mock';
 
@@ -13,7 +13,7 @@ describe('useGet', () => {
 	test('Verify useGet() hook behaves correctly', async() => {
 		fetchMock.get('http://example.com', {greeting: {message: 'Hello, world!'}});
 		let {getByTestId, getByText} = render(<TestComponent/>);
-		await wait(() => getByText("Hello, world!"));
+		await waitFor(() => getByText("Hello, world!"));
 		expect((await getByTestId("h1")).textContent).toEqual('Hello, world!');
 		fetchMock.resetBehavior();
 	});
