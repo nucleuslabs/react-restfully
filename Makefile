@@ -24,7 +24,7 @@ node_modules:
 
 publish: test dist
 	yarn version
-	yarn publish dist --tag main
+	yarn publish dist --tag latest
 
 lint: $(SRC_FILES) yarn.lock
 	yarn run lint
