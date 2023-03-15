@@ -1,0 +1,76 @@
+{
+  "name": "react-restfully",
+  "version": "1.1.2",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "lint": "node_modules/.bin/eslint src/ --ext .js --format 'node_modules/eslint-codeframe-formatter'"
+  },
+  "repository": "https://github.com/nucleuslabs/react-restfully",
+  "keywords": [
+    "react",
+    "hook",
+    "promise",
+    "fetch"
+  ],
+  "contributors": [
+    {
+      "name": "Miroslav Glamuzina",
+      "email": "mglamuzina@nucleuslabs.com",
+      "url": "https://nucleuslabs.com"
+    }
+  ],
+  "author": "Miroslav Glamuzina",
+  "license": "MIT",
+  "description": "React Restfully is a set of React Hooks and their analogous vanilla JS functions that assist you in fetching data using the fetch() api.",
+  "jest": {
+    "testMatch": [
+      "**/__tests__/**/*.(spec|test).[jt]s?(x)"
+    ],
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ],
+    "collectCoverageFrom": [
+      "**/src/*.js",
+      "**/src/fetch/*.js",
+      "**/src/hooks/*.jsx"
+    ]
+  },
+  "peerDependencies": {
+    "@babel/cli": "^7",
+    "@babel/core": "^7",
+    "@babel/plugin-proposal-optional-chaining": "^7",
+    "@babel/plugin-transform-runtime": "^7",
+    "@babel/preset-env": "^7",
+    "@babel/preset-react": "^7",
+    "react": "^18.2",
+    "react-dom": "^18.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7",
+    "@babel/core": "^7",
+    "@babel/plugin-proposal-optional-chaining": "^7",
+    "@babel/plugin-transform-runtime": "^7",
+    "@babel/preset-env": "^7",
+    "@babel/preset-react": "^7",
+    "@testing-library/react": "^13",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^25.1.0",
+    "eslint": "^6.8.0",
+    "eslint-codeframe-formatter": "^1",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.18.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "fetch-mock": "^9.11.0",
+    "jest": "^25.1.0",
+    "jest-extended": "^0.11.5",
+    "node-fetch": "^2",
+    "react": "^18.2",
+    "react-dom": "^18.2",
+    "react-test-renderer": "^18.2"
+  }
+}
