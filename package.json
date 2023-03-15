@@ -1,6 +1,6 @@
 {
   "name": "react-restfully",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "src/index.js",
   "scripts": {
     "test": "jest",
@@ -37,32 +37,28 @@
       "**/src/hooks/*.jsx"
     ]
   },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+  "peerDependencies": {
+    "react": "^18.2",
+    "react-dom": "^18.2",
+    "@babel/cli": "^7",
+    "@babel/core": "^7",
+    "@babel/plugin-transform-runtime": "^7",
+    "@babel/plugin-proposal-optional-chaining": "^7",
+    "@babel/preset-env": "^7",
+    "@babel/preset-react": "^7"
   },
   "devDependencies": {
+    "react": "^18.2",
+    "react-dom": "^18.2",
     "@babel/cli": "^7",
-    "@babel/core": "^7.8.6",
-    "@babel/plugin-proposal-class-properties": "^7",
-    "@babel/plugin-proposal-decorators": "^7",
-    "@babel/plugin-proposal-function-bind": "^7",
-    "@babel/plugin-proposal-object-rest-spread": "^7",
-    "@babel/plugin-syntax-decorators": "^7",
-    "@babel/plugin-syntax-jsx": "^7",
-    "@babel/plugin-transform-react-display-name": "^7",
-    "@babel/plugin-transform-react-jsx": "^7",
-    "@babel/plugin-transform-react-jsx-self": "^7",
-    "@babel/plugin-transform-react-jsx-source": "^7",
+    "@babel/core": "^7",
     "@babel/plugin-transform-runtime": "^7",
-    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
-    "@babel/preset-env": "^7.8.6",
-    "@babel/preset-react": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7",
+    "@babel/preset-env": "^7",
+    "@babel/preset-react": "^7",
     "@testing-library/react": "^13",
-    "autoprefixer": "^9",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^25.1.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
     "eslint": "^6.8.0",
     "eslint-codeframe-formatter": "^1",
     "eslint-config-standard": "^14.1.0",
@@ -73,8 +69,8 @@
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^25.1.0",
     "jest-extended": "^0.11.5",
-    "react-test-renderer": "^18.2.0",
-    "node-fetch": "^2.6.0",
-    "fetch-mock": "^9.0.0"
+    "react-test-renderer": "^18.2",
+    "node-fetch": "^2",
+    "fetch-mock": "^9.11.0"
   }
 }
